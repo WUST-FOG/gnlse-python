@@ -82,7 +82,7 @@ class GaussianEnvelope(Envelope):
 class LorentzianEnvelope(Envelope):
     """Amplitude envelope of lorentzian impulse
 
-    Parameters
+    Attributes
     ----------
     Pmax : float
         Peak power [W]
@@ -97,6 +97,7 @@ class LorentzianEnvelope(Envelope):
 
     def A(self, T):
         """
+        ...
 
         Parameters
         ----------

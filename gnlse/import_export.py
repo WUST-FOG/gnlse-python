@@ -1,7 +1,7 @@
-"""Import and export *.mat files.
+"""Import and export \\*.mat files.
 
-This module contains functions that enable to read matlab files (*.mat)
-in python as dictionary, and to export dictionary to *.mat.
+This module contains functions that enable to read matlab files (\\*.mat)
+in python as dictionary, and to export dictionary to \\*.mat.
 
 """
 
@@ -9,12 +9,12 @@ import hdf5storage as hdf
 
 
 def read_mat(filename):
-    """Imports *.mat file as dictionary
+    """Imports \\*.mat file as dictionary
 
     Parameters
     ----------
     filename : string
-        name of *.mat file ('example.mat')
+        name of \\*.mat file ('example.mat')
 
     Returns
     -------
@@ -29,14 +29,14 @@ def read_mat(filename):
 
 
 def write_mat(dictionary, filename):
-    """Exports dictionary to *.mat file
+    """Exports dictionary to \\*.mat file
 
     Parameters
     ----------
     dictionary : dict
         a list of variables
     filename : string
-        name of *.mat file ('example.mat')
+        name of \\*.mat file ('example.mat')
     """
 
     hdf.savemat(filename,

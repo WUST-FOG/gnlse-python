@@ -12,7 +12,7 @@ class GNLSESetup:
     Model inputs for the ``GNLSE`` class.
 
     Attributes
-    ==========
+    ----------
     resolution : int
         Number of points on the computational grid. Determines time resolution
         and bandwidth. Avoid numbers with large prime factors.
@@ -63,7 +63,7 @@ class Solution:
     Represents a solution to a GNLSE problem.
 
     Attributes
-    ==========
+    ----------
     t : ndarray, (n,)
         Time domain grid
     W : ndarray, (n,)
@@ -88,7 +88,7 @@ class Solution:
         Saves a solution to a file.
 
         Parameters
-        ==========
+        ----------
         path : str
             Path to file.
         """
@@ -102,7 +102,7 @@ class Solution:
         Load a solution from file.
 
         Parameters
-        ==========
+        ----------
         path : str
             Path to file.
         """
@@ -121,7 +121,7 @@ class GNLSE:
     generalized non-linear Schrödinger equation.
 
     Attributes
-    ==========
+    ----------
     setup : GNLSESetup
         Model inputs in the form of a ``GNLSESetup`` object.
     """

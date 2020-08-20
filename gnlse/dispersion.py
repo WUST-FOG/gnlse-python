@@ -11,31 +11,7 @@ from scipy import interpolate
 
 class Dispersion(object):
     def D(V):
-        raise NotImplementedError('Dispersion not implemented')
-
-
-class DispersionFiberFromTaylor(Dispersion):
-    """Calculates the dispersion in frequency domain
-
-    Parameters
-     ----------
-    loss : float
-        Loss factor [dB/m]
-    betas : ndarray (N)
-        Derivatives of constant propagations at 835 nm [ps^2/km]
-    Returns
-    -------
-    ndarray (N)
-        vector representing linear dispersion of the fibre
-
-    """
-
-    def __init__(self, loss, betas):
-        self.loss = loss
-        self.betas = betas
-
-    def D(self, V):
-        """
+        """...
 
         Parameters
         ----------
@@ -47,6 +23,26 @@ class DispersionFiberFromTaylor(Dispersion):
         ndarray, (N)
             Linear dispersion operator in frequency domain
         """
+
+        raise NotImplementedError('Dispersion not implemented')
+
+
+class DispersionFiberFromTaylor(Dispersion):
+    """Calculates the dispersion in frequency domain
+
+    Attributes
+     ----------
+    loss : float
+        Loss factor [dB/m]
+    betas : ndarray (N)
+        Derivatives of constant propagations at 835 nm [ps^2/km]
+    """
+
+    def __init__(self, loss, betas):
+        self.loss = loss
+        self.betas = betas
+
+    def D(self, V):
         # Damping
         alpha = np.log(10**(self.loss / 10))
         # Taylor series for subsequent derivatives
@@ -63,7 +59,7 @@ class DispersionFiberFromInterpolation(Dispersion):
     and corresponding wavelengths. The returned value is a vector
     of dispersion operator.
 
-    Parameters
+    Attributes
      ----------
     loss : float
         Loss factor [dB/m]
@@ -74,11 +70,6 @@ class DispersionFiberFromInterpolation(Dispersion):
         Effective refractive index
     wavelength : ndarray (N)
         Wavelength corresponding to refractive index
-    Returns
-    -------
-    ndarray (N)
-        Vector representing linear dispersion of the fibre
-
     """
 
     def __init__(self, loss, neff, lambdas, central_wavelength):
@@ -91,18 +82,6 @@ class DispersionFiberFromInterpolation(Dispersion):
         self.central_wavelength = central_wavelength
 
     def D(self, V):
-        """
-
-        Parameters
-        ----------
-        V : ndarray, (N)
-            Frequency vector
-
-        Returns
-        -------
-        ndarray, (N)
-            Linear dispersion operator in frequency domain
-        """
         # The speed of light [nm / ps]
         c = 299792458 * 1e-3
         # Central frequency [1/ps = THz]

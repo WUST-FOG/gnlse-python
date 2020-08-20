@@ -122,13 +122,13 @@ def raman_linagrawal(T):
      ----------
     T : float
         Time vector
+
     Returns
     -------
     float
         share of raman response
     ndarray
         vector representing Raman response
-
     """
 
     # Raman response [arbitrary units]
