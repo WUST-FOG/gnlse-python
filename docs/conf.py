@@ -8,10 +8,17 @@ project = 'gnlse-python'
 copyright = '2020, Developers of gnlse-python'
 author = 'Developers of gnlse-python'
 
+master_doc = 'index'
+
 extensions = [
     'numpydoc',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary'
+]
+
+autodoc_mock_imports = [
+    'numpy', 'matplotlib', 'matplotlib.pyplot', 'scipy', 'scipy.integrate',
+    'scipy.interpolate', 'pyfftw', 'hdf5storage', 'tqdm'
 ]
 
 autosummary_generate = True
