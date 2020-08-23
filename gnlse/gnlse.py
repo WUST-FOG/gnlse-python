@@ -65,9 +65,9 @@ class Solution:
     Attributes
     ----------
     t : ndarray, (n,)
-        Time domain grid
+        Time domain grid.
     W : ndarray, (n,)
-        Absolute angular frequency grid
+        Absolute angular frequency grid.
     Z : ndarray (m,)
         Points at which intermediate steps were saved.
     At : ndarray, (n, m)

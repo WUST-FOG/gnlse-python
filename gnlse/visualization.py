@@ -12,6 +12,26 @@ from gnlse.common import c
 
 def plot_wavelength_vs_distance(solver, WL_range=[400, 1350], ax=None,
                                 norm=None):
+    """Plotting results in frequency (wavelength) domain.
+
+    Parameters
+    ----------
+    solver : Solution
+        Model outputs in the form of a ``Solution`` object.
+    WL_range : list, (2, )
+        Wavelength range. Set [400, 1350] as default.
+    ax : :class:`~matplotlib.axes.Axes`
+        :class:`~matplotlib.axes.Axes` instance for plotting
+    norm : float
+        Normalization factor for output spectrum. As default maximum of
+        square absolute of ``solver.AW`` variable is taken.
+
+    Returns
+    -------
+    ax : :class:`~matplotlib.axes.Axes`
+       Used :class:`~matplotlib.axes.Axes` instance.
+    """
+
     if ax is None:
         ax = plt.gca()
 
@@ -42,6 +62,25 @@ def plot_wavelength_vs_distance(solver, WL_range=[400, 1350], ax=None,
 
 
 def plot_delay_vs_distance(solver, time_range=None, ax=None, norm=None):
+    """Plotting results in time domain.
+
+    Parameters
+    ----------
+    solver : Solution
+        Model outputs in the form of a ``Solution`` object.
+    time_range : list, (2, )
+        Time range. Set [min(``solver.t``), max(``solver.t``)] as default.
+    ax : :class:`~matplotlib.axes.Axes`
+        :class:`~matplotlib.axes.Axes` instance for plotting.
+    norm : float
+        Normalization factor for output spectrum. As default maximum of
+        square absolute of ``solver.At`` variable is taken.
+
+    Returns
+    -------
+    ax : :class:`~matplotlib.axes.Axes`
+       Used :class:`~matplotlib.axes.Axes` instance.
+    """
     if ax is None:
         ax = plt.gca()
 
@@ -63,6 +102,14 @@ def plot_delay_vs_distance(solver, time_range=None, ax=None, norm=None):
 
 
 def quick_plot(solution):
+    """Plotting results in time and frequency domain for default value
+    of parameters.
+
+    Parameters
+    ----------
+    solver : Solution
+        Model outputs in the form of a ``Solution`` object.
+    """
     plt.suptitle('GNLSE solution')
 
     plt.subplot(1, 2, 1)

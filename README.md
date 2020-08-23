@@ -6,6 +6,9 @@ gnlse-python is a Python set of scripts for solving
 Generalized Nonlinear Schrodringer Equation. It is one of the WUST-FOG students 
 projects developed by [Fiber Optics Group, WUST](http://www.fog.pwr.edu.pl/).
 
+Complete documentation is available at 
+[https://gnlse.readthedocs.io](https://gnlse.readthedocs.io)
+
 ## Installation
 
 1. Create a virtual environment with `python -m venv gnlse` or using `conda`.
@@ -38,7 +41,7 @@ python test_Dudley.py
 And you expect to visualise supercontinuum generation process in use of 3 types
  of pulses (simulation similar to Fig.3 of Dudley et. al, RMP 78 1135 (2006)):
 
-[supercontinuum_generation](https://github.com/WUST-FOG/gnlse-python/raw/master/data/supercontinuum_3pulses.png)
+![supercontinuum_generation](https://github.com/WUST-FOG/gnlse-python/raw/master/data/supercontinuum_3pulses.png)
 
 ### Major features
 
@@ -91,9 +94,9 @@ The master branch works with **python 3.7**.
 
 ## Authors
 
-- Adam Pawłowski
-- Paweł Redman
-- Daniel Szulc
+- [Adam Pawłowski](https://github.com/adampawl)
+- [Paweł Redman](https://redman.xyz/)
+- [Daniel Szulc](http://szulc.xyz/)
 - Magda Zatorska
 - [Sylwia Majchrowska](https://majsylw.netlify.app/)
 - [Karol Tarnowski](http://www.if.pwr.wroc.pl/~tarnowski/)

@@ -9,12 +9,12 @@ import hdf5storage as hdf
 
 
 def read_mat(filename):
-    """Imports \\*.mat file as dictionary
+    """Imports \\*.mat file as dictionary.
 
     Parameters
     ----------
     filename : string
-        name of \\*.mat file ('example.mat')
+        Name of \\*.mat file ('example.mat').
 
     Returns
     -------
@@ -29,14 +29,14 @@ def read_mat(filename):
 
 
 def write_mat(dictionary, filename):
-    """Exports dictionary to \\*.mat file
+    """Exports dictionary to \\*.mat file.
 
     Parameters
     ----------
     dictionary : dict
-        a list of variables
+        A list of variables.
     filename : string
-        name of \\*.mat file ('example.mat')
+        Name of \\*.mat file ('example.mat').
     """
 
     hdf.savemat(filename,

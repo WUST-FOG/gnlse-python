@@ -25,13 +25,14 @@ def raman_blowwood(T):
     Parameters
     ----------
     T : float
-        Time vector
+       Time vector.
+
     Returns
     -------
     fr : float
-       share of raman response
+       Share of Raman response.
     RT : ndarray
-       vector representing Raman response
+       Vector representing Raman response.
 
     """
 
@@ -55,15 +56,16 @@ def raman_holltrell(T):
     Hollenbeck and Cyrus D. Cantrell model.
 
     Parameters
-     ----------
+    ----------
     T : float
-        Time vector
+        Time vector.
+
     Returns
     -------
-    float
-        share of raman response
-    ndarray
-        vector representing Raman response
+    fr : float
+       Share of Raman response.
+    RT : ndarray
+       Vector representing Raman response.
 
     """
 
@@ -98,8 +100,8 @@ def raman_holltrell(T):
 
     # RT = A * np.exp(-gamma * T) * np.exp((-L ** 2 * T ** 2 )/ 4) * np.sin(
     #      w * T)   # rozszerzenie pośrednie
-    # RT = A * np.exp((-(L ** 2) * T ** 2) / 4) * np.sin(w * T) # niejednorodne
-    # RT = A * np.sin(w * T) * np.exp(-gamma * T)               # jednorodne
+    # RT = A * np.exp((-(L ** 2) * T ** 2) / 4) * np.sin(w * T) # nonuniform
+    # RT = A * np.sin(w * T) * np.exp(-gamma * T)               # unform
 
     RT = np.zeros_like(T)
 
@@ -116,19 +118,20 @@ def raman_holltrell(T):
 
 def raman_linagrawal(T):
     """Raman scattering function for silica optical fibers, based on Q. Lin
-        and Govind P. Agrawal model.
+    and Govind P. Agrawal model.
 
     Parameters
      ----------
     T : float
-        Time vector
+        Time vector.
 
     Returns
     -------
-    float
-        share of raman response
-    ndarray
-        vector representing Raman response
+    fr : float
+       Share of Raman response.
+    RT : ndarray
+       Vector representing Raman response.
+
     """
 
     # Raman response [arbitrary units]

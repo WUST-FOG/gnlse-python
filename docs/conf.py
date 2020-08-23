@@ -10,10 +10,11 @@ author = 'Developers of gnlse-python'
 
 master_doc = 'index'
 
+
 extensions = [
-    'numpydoc',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+	'numpydoc'
 ]
 
 autodoc_mock_imports = [

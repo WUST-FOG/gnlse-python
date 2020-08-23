@@ -62,7 +62,6 @@ if __name__ == '__main__':
         gnlse.plot_wavelength_vs_distance(solution, WL_range=[500, 1250])
 
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
-        plt.xlim(-0.5, 4)
+        gnlse.plot_delay_vs_distance(solution, time_range=[-0.5, 4])
     plt.tight_layout()
     plt.show()

@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 
 import gnlse
 
+import os
 
 if __name__ == '__main__':
     setup = gnlse.GNLSESetup()
@@ -63,7 +64,9 @@ if __name__ == '__main__':
     gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
 
     # read mat file for neffs
-    mat = gnlse.read_mat('../data/neff_pcf.mat')
+    mat_path = os.path.join(os.path.dirname(__file__), '..',
+                            'data', 'neff_pcf.mat')
+    mat = gnlse.read_mat(mat_path)
     # neffs
     neff = mat['neff'][:, 1]
     # wavelengths in nm

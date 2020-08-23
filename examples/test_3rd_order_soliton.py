@@ -7,15 +7,14 @@ higher-order N = 3 soliton in three cases:
 """
 
 import numpy as np
-import gnlse
 import matplotlib.pyplot as plt
 
+import gnlse
 
 if __name__ == '__main__':
     setup = gnlse.gnlse.GNLSESetup()
 
     # Numerical parameters
-    ###########################################################################
     # number of grid time points
     setup.resolution = 2**13
     # time window [ps]
@@ -28,7 +27,6 @@ if __name__ == '__main__':
     setup.atol = 1e-6
 
     # Physical parameters
-    ###########################################################################
     # Central wavelength [nm]
     setup.wavelength = 835
     # Nonlinear coefficient [1/W/m]
@@ -60,54 +58,31 @@ if __name__ == '__main__':
     # Type of dyspersion operator: build from Taylor expansion
     setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
 
-    # Type of Ramman scattering function: None (default)
-    # Selftepening: not accounted
-    setup.self_steepening = False
+    # Set type of Ramman scattering function and selftepening
+    simulation_type = {
+        '3rd order soliton': (False, None),
+        '3rd order soliton\nwith self-steepening': (True, None),
+        'Raman induced fission\nof 3rd order soliton': (True,
+                                                        gnlse.raman_blowwood)
+    }
 
-    # Simulation
-    ###########################################################################
-    solver = gnlse.gnlse.GNLSE(setup)
-    solution = solver.run()
+    count = len(simulation_type)
+    plt.figure(figsize=(15, 7), facecolor='w', edgecolor='k')
+    for (i, (name,
+             (self_steepening,
+              raman_model))) in enumerate(simulation_type.items()):
+        setup.raman_model = raman_model
+        setup.self_steepening = self_steepening
+        solver = gnlse.GNLSE(setup)
+        solution = solver.run()
 
-    # Visualization
-    ###########################################################################
-    plt.figure(figsize=(15, 7))
+        plt.subplot(2, count, i + 1)
+        plt.title(name)
+        gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
 
-    plt.subplot(2, 3, 1)
-    plt.title("3rd order soliton")
-    gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
-    plt.subplot(2, 3, 4)
-    gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
+        plt.subplot(2, count, i + 1 + count)
+        gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
 
-    # Type of Ramman scattering function: None (default)
-    # Selftepening: accounted
-    setup.self_steepening = True
-    # Simulation
-    ###########################################################################
-    solver = gnlse.gnlse.GNLSE(setup)
-    solution = solver.run()
-    # Visualization
-    ###########################################################################
-    plt.subplot(2, 3, 2)
-    plt.title("3rd order soliton\nwith self-steepening")
-    gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
-    plt.subplot(2, 3, 5)
-    gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
-
-    # Type of Ramman scattering function: Blow-Wood
-    setup.raman_model = gnlse.raman_blowwood
-    # Selftepening: accounted
-    setup.self_steepening = True
-    # Simulation
-    ###########################################################################
-    solver = gnlse.gnlse.GNLSE(setup)
-    solution = solver.run()
-    # Visualization
-    ###########################################################################
-    plt.subplot(2, 3, 3)
-    plt.title("Raman induced fission\nof 3rd order soliton")
-    gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
-    plt.subplot(2, 3, 6)
-    gnlse.plot_delay_vs_distance(solution, time_range=[-1, 2])
-
+    plt.xlim(-1, 2)
+    plt.tight_layout()
     plt.show()

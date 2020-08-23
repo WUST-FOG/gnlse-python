@@ -14,14 +14,14 @@ class Envelope(object):
 
 
 class SechEnvelope(Envelope):
-    """Amplitude envelope of hyperbolic secant impulse
+    """Amplitude envelope of hyperbolic secant impulse.
 
-    Parameters
+    Attributes
     ----------
     Pmax : float
-        Peak power [W]
+        Peak power, [W].
     FWHM : float
-        Pulse duration Full-Width Half-Maximum
+        Pulse duration Full-Width Half-Maximum.
     """
 
     def __init__(self, Pmax, FWHM):
@@ -34,12 +34,13 @@ class SechEnvelope(Envelope):
 
         Parameters
         ----------
-        T : ndarray, (N)
+        T : ndarray, (n, )
             Time vector
 
         Returns
         -------
-        ndarray, (N)
+        ndarray, (n, )
+            Amplitude envelope of hyperbolic secant impulse in time.
         """
         m = 2 * np.log(1 + np.sqrt(2))
         return np.sqrt(self.Pmax) * 2 / (np.exp(m * T / self.FWHM) +
@@ -47,14 +48,14 @@ class SechEnvelope(Envelope):
 
 
 class GaussianEnvelope(Envelope):
-    """Amplitude envelope of gaussian impulse
+    """Amplitude envelope of gaussian impulse.
 
-    Parameters
+    Attributes
     ----------
     Pmax : float
-        Peak power [W]
+        Peak power [W].
     FWHM : float
-        Pulse duration Full-Width Half-Maximum
+        Pulse duration Full-Width Half-Maximum.
     """
 
     def __init__(self, Pmax, FWHM):
@@ -67,27 +68,27 @@ class GaussianEnvelope(Envelope):
 
         Parameters
         ----------
-        T : ndarray, (N)
-            Time vector
+        T : ndarray, (n, )
+            Time vector.
 
         Returns
         -------
-        ndarray
-            a list of strings representing the header columns
+        ndarray, (n, )
+            Amplitude envelope of gaussian impulse in time.
         """
         m = 4 * np.log(2)
         return np.sqrt(self.Pmax) * np.exp(-m * .5 * T**2 / self.FWHM**2)
 
 
 class LorentzianEnvelope(Envelope):
-    """Amplitude envelope of lorentzian impulse
+    """Amplitude envelope of lorentzian impulse.
 
     Attributes
     ----------
     Pmax : float
-        Peak power [W]
+        Peak power [W].
     FWHM : float
-        Pulse duration Full-Width Half-Maximum
+        Pulse duration Full-Width Half-Maximum.
     """
 
     def __init__(self, Pmax, FWHM):
@@ -97,17 +98,16 @@ class LorentzianEnvelope(Envelope):
 
     def A(self, T):
         """
-        ...
 
         Parameters
         ----------
-        T : ndarray, (N)
-            Time vector
+        T : ndarray, (n, )
+            Time vector.
 
         Returns
         -------
-        ndarray
-            a list of strings representing the header columns
+        ndarray, (n, )
+            Amplitude envelope of lorentzian impulse in time.
         """
         m = 2 * np.sqrt(np.sqrt(2) - 1)
         return np.sqrt(self.Pmax) / (1 + (m * T / self.FWHM)**2)
