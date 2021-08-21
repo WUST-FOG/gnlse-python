@@ -17,3 +17,6 @@ Bibliography
    https://doi.org/10.1109/JLT.2007.909373
 .. [LA06] Lin, Q., & Agrawal, G. P. (2006). Raman response function for silica
    fibers. Optics Letters, 31(21), 3086. https://doi.org/10.1364/ol.31.003086
+.. [J07] J. Laegsgaard, (2007). Mode profile dispersion in the generalized
+   nonlinear Schrödinger equation. Optics Express 15(24), 16110-16123.
+   https://doi.org/10.1364/OE.15.016110
