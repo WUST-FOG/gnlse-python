@@ -8,10 +8,23 @@ frequency domain.
 import numpy as np
 from scipy import interpolate
 
+from gnlse.common import c
+
 
 class Dispersion(object):
+    """
+    Attributes
+    -----------
+    loss : float
+        Loss factor [dB/m]
+    """
+
+    def __init__(self, loss):
+        self.loss = loss
+
     def D(V):
-        """...
+        """Calculate linear dispersion operator
+        for given frequency grid created during simulation
 
         Parameters
         ----------
@@ -26,6 +39,12 @@ class Dispersion(object):
 
         raise NotImplementedError('Dispersion not implemented')
 
+    def calc_loss(self):
+        """Calculate damping
+        for given frequency grid created during simulation
+        """
+        self.alpha = np.log(10**(self.loss / 10))
+
 
 class DispersionFiberFromTaylor(Dispersion):
     """Calculates the dispersion in frequency domain
@@ -35,7 +54,8 @@ class DispersionFiberFromTaylor(Dispersion):
     loss : float
         Loss factor [dB/m]
     betas : ndarray (N)
-        Derivatives of constant propagations at 835 nm [ps^2/km]
+        Derivatives of constant propagations at pump wavelength
+        [ps^2/km]
     """
 
     def __init__(self, loss, betas):
@@ -44,12 +64,12 @@ class DispersionFiberFromTaylor(Dispersion):
 
     def D(self, V):
         # Damping
-        alpha = np.log(10**(self.loss / 10))
+        self.calc_loss()
         # Taylor series for subsequent derivatives
         # of constant propagation
         B = sum(beta / np.math.factorial(i + 2) * V**(i + 2)
                 for i, beta in enumerate(self.betas))
-        L = 1j * B - alpha / 2
+        L = 1j * B - self.alpha / 2
         return L
 
 
@@ -60,36 +80,31 @@ class DispersionFiberFromInterpolation(Dispersion):
     of dispersion operator.
 
     Attributes
-     ----------
+    -----------
     loss : float
         Loss factor [dB/m]
-    betas : ndarray (N)
-        Derivatives of constant propagations at
-        central wavelength in nm [ps^2/km]
     neff : ndarray (N)
         Effective refractive index
-    wavelength : ndarray (N)
+    lambdas : ndarray (N)
         Wavelength corresponding to refractive index
+    central_wavelength : float
+        Wavelength corresponding to pump wavelength in nm
     """
 
     def __init__(self, loss, neff, lambdas, central_wavelength):
+        # Loss factor in dB/m
         self.loss = loss
         # refractive indices
         self.neff = neff
         # wavelengths for neffs in [nm]
         self.lambdas = lambdas
-        # central wavelength in [nm]
-        self.central_wavelength = central_wavelength
+        # Central frequency in [1/ps = THz]
+        self.w0 = (2.0 * np.pi * c) / central_wavelength
 
     def D(self, V):
-        # The speed of light [nm / ps]
-        c = 299792458 * 1e-3
         # Central frequency [1/ps = THz]
-        w0 = (2.0 * np.pi * c) / self.central_wavelength
-        Z = V + w0
-
         omega = 2 * np.pi * c / self.lambdas
-        dOmega = Z[1] - Z[0]
+        dOmega = V[1] - V[0]
         Bet = self.neff * omega / c
 
         # Extrapolate betas for a frequency vector
@@ -98,21 +113,21 @@ class DispersionFiberFromInterpolation(Dispersion):
                                                  kind='cubic',
                                                  fill_value="extrapolate")
 
-        B = fun_interpolation(Z)
+        B = fun_interpolation(V + self.w0)
         # Propagation constant at central frequency [1/m]
-        B0 = fun_interpolation(w0)
+        B0 = fun_interpolation(self.w0)
         # Value of propagation at a lower end of interval [1/m]
-        B0plus = fun_interpolation(w0 + dOmega)
+        B0plus = fun_interpolation(self.w0 + dOmega)
         # Value of propagation at a higher end of interval [1/m]
-        B0minus = fun_interpolation(w0 - dOmega)
+        B0minus = fun_interpolation(self.w0 - dOmega)
 
         # Difference quotient, approximation of
         # derivative of a function at a point [ps/m]
         B1 = (B0plus - B0minus) / (2 * dOmega)
 
-        # Loss factor [dB / m]
-        alpha = np.log(10**(self.loss / 10))
+        # Damping
+        self.calc_loss()
 
         # Linear dispersion operator
-        L = 1j * (B - (B0 + B1 * V)) - alpha / 2
+        L = 1j * (B - (B0 + B1 * V)) - self.alpha / 2
         return L
