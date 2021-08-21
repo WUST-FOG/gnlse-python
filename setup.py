@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='gnlse',
-    version='1.0.0',
+    version='1.1.0',
     url='https://github.com/WUST-FOG/gnlse-python',
     author='Pawłowski, A., Redman, P., Szulc, D., Zatorska, M., '
            'Majchrowska, S., Tarnowski, K.',

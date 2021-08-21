@@ -186,7 +186,7 @@ class GNLSE:
         else:
             # in case in of direct introduced value
             gamma = self.setup.nonlinearity / w_0
-            scale = None
+            scale = 1
 
         # Raman scattering
         if self.setup.raman_model:
@@ -215,10 +215,6 @@ class GNLSE:
             progress_bar.n = round(z, 3)
             progress_bar.update(0)
 
-            # input modification by J. Lægsgaard
-            if scale is not None:
-                AW *= scale
-
             x[:] = AW * np.exp(D * z)
             At = plan_forward().copy()
             IT = np.abs(At)**2
@@ -237,21 +233,18 @@ class GNLSE:
 
             rv = 1j * gamma * W * M * np.exp(-D * z)
 
-            # input modification by J. Lægsgaard
-            if scale is not None:
-                AW /= scale
             return rv
 
         Z = np.linspace(0, self.setup.fiber_length, self.setup.z_saves)
         solution = scipy.integrate.solve_ivp(
             rhs,
             t_span=(0, self.setup.fiber_length),
-            y0=np.fft.ifft(A),
+            y0=np.fft.ifft(A) * scale,
             t_eval=Z,
             rtol=self.setup.rtol,
             atol=self.setup.atol,
             method=self.setup.method)
-        AW = solution.y.T
+        AW = solution.y.T / scale
 
         progress_bar.close()
 
