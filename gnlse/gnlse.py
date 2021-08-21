@@ -144,68 +144,75 @@ class GNLSE:
         if setup.impulse_model is None:
             raise ValueError("'impulse_model' not set")
 
-        self.setup = setup
+        # simulation parameters
+        self.fiber_length = setup.fiber_length
+        self.z_saves = setup.z_saves
+        self.rtol = setup.rtol
+        self.atol = setup.atol
+        self.method = setup.method
+        self.N = setup.resolution
+
+        # Time domain grid
+        self.t = np.linspace(-setup.time_window / 2,
+                             setup.time_window / 2,
+                             self.N)
+
+        # Relative angular frequency grid
+        self.V = 2 * np.pi * np.arange(-self.N / 2,
+                                       self.N / 2
+                                       ) / (self.N * (self.t[1] - self.t[0]))
+        # Central angular frequency [10^12 rad]
+        w_0 = (2.0 * np.pi * c) / setup.wavelength
+        self.Omega = self.V + w_0
+
+        # Absolute angular frequency grid
+        if setup.self_steepening and np.abs(w_0) > np.finfo(float).eps:
+            W = self.V + w_0
+        else:
+            W = np.full(self.V.shape, w_0)
+        self.W = np.fft.fftshift(W)
+
+        # Nonlinearity
+        if hasattr(setup.nonlinearity, 'gamma'):
+            # in case in of frequency dependent nonlinearity
+            gamma, self.scale = setup.nonlinearity.gamma(self.V + w_0)
+            self.gamma = gamma / w_0
+        else:
+            # in case in of direct introduced value
+            self.gamma = setup.nonlinearity / w_0
+            self.scale = 1
+
+        # Raman scattering
+        if setup.raman_model:
+            self.fr, RT = setup.raman_model(self.t)
+            if np.abs(self.fr) < np.finfo(float).eps:
+                self.RW = None
+            else:
+                self.RW = self.N * np.fft.ifft(
+                    np.fft.fftshift(np.transpose(RT)))
+
+        # Dispersion operator
+        if setup.dispersion_model:
+            D = setup.dispersion_model.D(self.V)
+        else:
+            D = np.zeros(self.V.shape)
+        self.D = np.fft.fftshift(D)
+
+        # Input impulse
+        self.A = setup.impulse_model.A(self.t)
 
     def run(self):
         """
         Solve the problem described by the given ``GNLSESetup`` object.
         """
-
-        N = self.setup.resolution
-        # Time domain grid
-        self.t = np.linspace(-self.setup.time_window / 2,
-                             self.setup.time_window / 2, N)
         dt = self.t[1] - self.t[0]
 
-        # Relative angular frequency grid
-        V = 2 * np.pi * np.arange(-N / 2, N / 2) / (N * dt)
-
-        # Input impulse
-        A = self.setup.impulse_model.A(self.t)
-
-        # Central angular frequency [10^12 rad]
-        w_0 = (2.0 * np.pi * c) / self.setup.wavelength
-
-        # Dispersion operator
-        if self.setup.dispersion_model:
-            D = self.setup.dispersion_model.D(V)
-        else:
-            D = np.zeros(V.shape)
-
-        # Absolute angular frequency grid
-        if self.setup.self_steepening and np.abs(w_0) > np.finfo(float).eps:
-            W = V + w_0
-        else:
-            W = np.full(V.shape, w_0)
-
-        # Nonlinearity
-        if hasattr(self.setup.nonlinearity, 'gamma'):
-            # in case in of frequency dependent nonlinearity
-            gamma, scale = self.setup.nonlinearity.gamma(V + w_0)
-            gamma /= w_0
-        else:
-            # in case in of direct introduced value
-            gamma = self.setup.nonlinearity / w_0
-            scale = 1
-
-        # Raman scattering
-        if self.setup.raman_model:
-            fr, RT = self.setup.raman_model(self.t)
-            if np.abs(fr) < np.finfo(float).eps:
-                self.raman_model = None
-            else:
-                RW = N * np.fft.ifft(
-                    np.fft.fftshift(np.transpose(RT)))
-
-        D = np.fft.fftshift(D)
-        W = np.fft.fftshift(W)
-
-        x = pyfftw.empty_aligned(N, dtype="complex128")
-        X = pyfftw.empty_aligned(N, dtype="complex128")
+        x = pyfftw.empty_aligned(self.N, dtype="complex128")
+        X = pyfftw.empty_aligned(self.N, dtype="complex128")
         plan_forward = pyfftw.FFTW(x, X)
         plan_inverse = pyfftw.FFTW(X, x, direction="FFTW_BACKWARD")
 
-        progress_bar = tqdm.tqdm(total=self.setup.fiber_length, unit='m')
+        progress_bar = tqdm.tqdm(total=self.fiber_length, unit='m')
 
         def rhs(z, AW):
             """
@@ -215,45 +222,46 @@ class GNLSE:
             progress_bar.n = round(z, 3)
             progress_bar.update(0)
 
-            x[:] = AW * np.exp(D * z)
+            x[:] = AW * np.exp(self.D * z)
             At = plan_forward().copy()
             IT = np.abs(At)**2
 
-            if self.setup.raman_model:
+            if self.RW is not None:
                 X[:] = IT
                 plan_inverse()
-                x[:] *= RW
+                x[:] *= self.RW
                 plan_forward()
-                RS = dt * fr * X
-                X[:] = At * ((1 - fr) * IT + RS)
+                RS = dt * self.fr * X
+                X[:] = At * ((1 - self.fr) * IT + RS)
                 M = plan_inverse()
             else:
                 X[:] = At * IT
                 M = plan_inverse()
 
-            rv = 1j * gamma * W * M * np.exp(-D * z)
+            rv = 1j * self.gamma * self.W * M * np.exp(
+                -self.D * z)
 
             return rv
 
-        Z = np.linspace(0, self.setup.fiber_length, self.setup.z_saves)
+        Z = np.linspace(0, self.fiber_length, self.z_saves)
         solution = scipy.integrate.solve_ivp(
             rhs,
-            t_span=(0, self.setup.fiber_length),
-            y0=np.fft.ifft(A) * scale,
+            t_span=(0, self.fiber_length),
+            y0=np.fft.ifft(self.A) * self.scale,
             t_eval=Z,
-            rtol=self.setup.rtol,
-            atol=self.setup.atol,
-            method=self.setup.method)
-        AW = solution.y.T / scale
+            rtol=self.rtol,
+            atol=self.atol,
+            method=self.method)
+        AW = solution.y.T
 
         progress_bar.close()
 
         # Transform the results into the time domain
         At = np.zeros(AW.shape, dtype=AW.dtype)
         for i in range(len(AW[:, 0])):
-            AW[i, :] *= np.exp(np.transpose(D) * Z[i])
+            AW[i, :] *= np.exp(np.transpose(
+                self.D) * Z[i]) / self.scale
             At[i, :] = np.fft.fft(AW[i, :])
             AW[i, :] = np.fft.fftshift(AW[i, :]) / dt
-        W = V + w_0
 
-        return Solution(self.t, W, Z, At, AW)
+        return Solution(self.t, self.Omega, Z, At, AW)
