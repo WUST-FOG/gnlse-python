@@ -39,6 +39,8 @@ class GNLSESetup:
         Relative tolerance passed to the ODE solver.
     atol : float, optional
         Absolute tolerance passed to the ODE solver.
+    method : str, optional
+        Integration method passed to the ODE solver.
     """
 
     def __init__(self):
@@ -56,6 +58,7 @@ class GNLSESetup:
 
         self.rtol = 1e-3
         self.atol = 1e-4
+        self.method = 'RK45'
 
 
 class Solution:
@@ -176,7 +179,14 @@ class GNLSE:
             W = np.full(V.shape, w_0)
 
         # Nonlinearity
-        gamma = self.setup.nonlinearity / w_0
+        if hasattr(self.setup.nonlinearity, 'gamma'):
+            # in case in of frequency dependent nonlinearity
+            gamma, scale = self.setup.nonlinearity.gamma(V + w_0)
+            gamma /= w_0
+        else:
+            # in case in of direct introduced value
+            gamma = self.setup.nonlinearity / w_0
+            scale = None
 
         # Raman scattering
         if self.setup.raman_model:
@@ -205,9 +215,12 @@ class GNLSE:
             progress_bar.n = round(z, 3)
             progress_bar.update(0)
 
+            # input modification by J. Lægsgaard
+            if scale is not None:
+                AW *= scale
+
             x[:] = AW * np.exp(D * z)
             At = plan_forward().copy()
-
             IT = np.abs(At)**2
 
             if self.setup.raman_model:
@@ -223,6 +236,10 @@ class GNLSE:
                 M = plan_inverse()
 
             rv = 1j * gamma * W * M * np.exp(-D * z)
+
+            # input modification by J. Lægsgaard
+            if scale is not None:
+                AW /= scale
             return rv
 
         Z = np.linspace(0, self.setup.fiber_length, self.setup.z_saves)
@@ -232,7 +249,8 @@ class GNLSE:
             y0=np.fft.ifft(A),
             t_eval=Z,
             rtol=self.setup.rtol,
-            atol=self.setup.atol)
+            atol=self.setup.atol,
+            method=self.setup.method)
         AW = solution.y.T
 
         progress_bar.close()
