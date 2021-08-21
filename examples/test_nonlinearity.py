@@ -1,13 +1,19 @@
 """
 Example:  Example of supercontinuum generation in anomalous dispersion regime
 at a central wavelength of 835 nm in a 15 centimeter long fiber.
-Comparision of results obtained with two dispersion input:
-1. dispersion calculated from Taylor expansion
-2. dispersion calculated from effective refractive indicies
+Comparision of results obtained with two simulation input:
+1. dispersion calculated from Taylor expansion,
+   and gamma value procided only for pump wavelength
+2. dispersion calculated from effective refractive indicies,
+   and gamma calculated from effective mode areas
+   with modification proposed by J. Lægsgaard [2]
 
-The python code based on MATLAB code published in
-'Supercontinuum Generation in Optical Fibers'
-by J. M. Dudley and J. R. Taylor, available at http://scgbook.info/.
+
+[1] "Supercontinuum Generation in Optical Fibers,"
+    J. M. Dudley and J. R. Taylor, 2010.
+[2] "Mode profile dispersion in the generalized
+    nonlinear Schrödinger equation," J. Lægsgaard,
+    Opt. Express 15, 16110-16123, 2007.
 """
 
 import matplotlib.pyplot as plt
