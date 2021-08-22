@@ -183,6 +183,7 @@ class GNLSE:
             self.scale = 1
 
         # Raman scattering
+        self.RW = None
         if setup.raman_model:
             self.fr, RT = setup.raman_model(self.t)
             if np.abs(self.fr) < np.finfo(float).eps:
