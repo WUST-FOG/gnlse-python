@@ -79,12 +79,16 @@ class Solution:
         Intermediate steps in the frequency domain.
     """
 
-    def __init__(self, t=None, W=None, Z=None, At=None, AW=None):
+    def __init__(self, t=None, W=None, Z=None, At=None, AW=None,
+                 Aty=None, AWy=None):
         self.t = t
         self.W = W
         self.Z = Z
         self.At = At
         self.AW = AW
+        # aditional solutions in case of two-mode example
+        self.Aty = Aty
+        self.AWy = AWy
 
     def to_file(self, path):
         """
@@ -120,8 +124,8 @@ class Solution:
 
 class GNLSE:
     """
-    Models propagation of an optical impulse in a fiber by integrating the
-    generalized non-linear Schrödinger equation.
+    Models propagation of an optical impulse in a fiber by integrating
+    the generalized non-linear Schrödinger equation.
 
     Attributes
     ----------
@@ -177,6 +181,8 @@ class GNLSE:
             # in case in of frequency dependent nonlinearity
             gamma, self.scale = setup.nonlinearity.gamma(self.V + w_0)
             self.gamma = gamma / w_0
+            self.gamma = np.fft.fftshift(self.gamma)
+            self.scale = np.fft.fftshift(self.scale)
         else:
             # in case in of direct introduced value
             self.gamma = setup.nonlinearity / w_0
@@ -194,20 +200,28 @@ class GNLSE:
 
         # Dispersion operator
         if setup.dispersion_model:
-            D = setup.dispersion_model.D(self.V)
+            self.D = setup.dispersion_model.D(self.V)
         else:
-            D = np.zeros(self.V.shape)
-        self.D = np.fft.fftshift(D)
+            self.D = np.zeros(self.V.shape)
 
         # Input impulse
-        self.A = setup.impulse_model.A(self.t)
+        if hasattr(setup.impulse_model, 'A'):
+            self.A = setup.impulse_model.A(self.t)
+        else:
+            self.A = setup.impulse_model
 
     def run(self):
         """
-        Solve the problem described by the given ``GNLSESetup`` object.
+        Solve one mode GNLSE equation described by the given
+        ``GNLSESetup`` object.
+
+        Returns
+        -------
+        setup : Solution
+            Simulation results in the form of a ``Solution`` object.
         """
         dt = self.t[1] - self.t[0]
-
+        self.D = np.fft.fftshift(self.D)
         x = pyfftw.empty_aligned(self.N, dtype="complex128")
         X = pyfftw.empty_aligned(self.N, dtype="complex128")
         plan_forward = pyfftw.FFTW(x, X)
@@ -263,6 +277,6 @@ class GNLSE:
             AW[i, :] *= np.exp(np.transpose(
                 self.D) * Z[i]) / self.scale
             At[i, :] = np.fft.fft(AW[i, :])
-            AW[i, :] = np.fft.fftshift(AW[i, :]) / dt
+            AW[i, :] = np.fft.fftshift(AW[i, :]) * self.N * dt
 
         return Solution(self.t, self.Omega, Z, At, AW)

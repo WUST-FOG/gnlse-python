@@ -107,12 +107,16 @@ Major features
 Release information
 -------------------
 
-v1.0.0 was released on August 13, 2020. The master branch works with
+v1.1.1 was released on August 28, 2021. The master branch works with
 **Python 3.7.**
 
 =======  ===============  ====================================================
 Version  Date             Notes
 =======  ===============  ====================================================
+1.1.1    August 28, 2021  * CHANGE: Minor bug fix with scaling
+                          * CHANGE: Few minor changes in the documentation
+1.1.0    August 21, 2021  * Modified-GNLSE extension
+                          * CHANGE: Code refactor - relocate attribiutes
 1.0.0    August 13, 2020  * The first proper release
                           * CHANGE: Complete documentation and code.
 =======  ===============  ====================================================
@@ -123,7 +127,7 @@ Authors
   * `Adam Pawłowski <https://github.com/adampawl>`_
   * `Paweł Redman <https://redman.xyz/>`_
   * `Daniel Szulc <http://szulc.xyz/>`_
-  * Magda Zatorska
+  * `Magda Zatorska <https://github.com/magdazatorska>`_
   * `Sylwia Majchrowska <https://majsylw.netlify.app/>`_
   * `Karol Tarnowski <http://www.if.pwr.wroc.pl/~tarnowski/>`_
 

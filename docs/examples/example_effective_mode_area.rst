@@ -80,7 +80,7 @@ a 15 centimeter long photonic crystal fiber. ::
 
             plt.subplot(2, count, i + 1)
             plt.title(model[0])
-            gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1700])
+            gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1500])
             plt.subplot(2, count, i + 1 + count)
             gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
 
