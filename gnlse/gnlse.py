@@ -263,6 +263,6 @@ class GNLSE:
             AW[i, :] *= np.exp(np.transpose(
                 self.D) * Z[i]) / self.scale
             At[i, :] = np.fft.fft(AW[i, :])
-            AW[i, :] = np.fft.fftshift(AW[i, :]) / dt
+            AW[i, :] = np.fft.fftshift(AW[i, :]) * self.N * dt
 
         return Solution(self.t, self.Omega, Z, At, AW)

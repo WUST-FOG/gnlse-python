@@ -93,16 +93,19 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 
 ## Release History
 
-v1.1.0 was released in 21/8/2021.
+v1.1.1 was released in 28/8/2021.
 The master branch works with **python 3.7**.
 
-* **1.0.0 -> Aug 13th, 2020**
-    * The first proper release
-    * CHANGE: Complete documentation and code
-* **1.1.0 -> Aug 21th, 2021**
+* **1.1.1 -> Aug 28th, 2021**
+    * CHANGE: Minor bug fix with scaling
+    * CHANGE: Few minor changes in the documentation
+* **1.1.0 -> Aug 21st, 2021**
     * Modified-GNLSE extension
     * CHANGE: Code refactor - relocate GNLSE's attribiutes setting into constructor
     * ADD: Possibility to take into account the effective mode area's dependence on frequency
+* **1.0.0 -> Aug 13th, 2020**
+    * The first proper release
+    * CHANGE: Complete documentation and code
 
 ## Authors
 
