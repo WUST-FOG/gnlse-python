@@ -36,6 +36,21 @@ and calculated from effective refractive indices.
    gnlse.DispersionFiberFromTaylor
    gnlse.DispersionFiberFromInterpolation
 
+Nonlinear coefficient
+---------------------
+
+The guided fiber mode has a certain effective mode area, which in general
+depends on frequency. Package supports two possibilites to account
+the parameter: by giving the scalar value for gamma at central wavelength
+or calculated values for freqency range from effective refractive indices
+and effective mode area (experimantal or simulated data)
+Mode profile dispersion in GNLSE is accounted based on algorithm
+described in [J07]_.
+
+.. autosummary::
+
+   gnlse.NonlinearityFromEffectiveArea
+
 Raman responses
 ---------------
 
