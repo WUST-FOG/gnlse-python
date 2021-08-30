@@ -7,10 +7,10 @@ hyperbolic secant, gaussian and lorentzian.
 
 import numpy as np
 import matplotlib.pyplot as plt
+
 import gnlse
 
 if __name__ == '__main__':
-
     # time full with half maximum of impulse
     FWHM = 2
     # Time grid [ps]
@@ -24,12 +24,15 @@ if __name__ == '__main__':
     A2 = gnlse.SechEnvelope(Pmax, FWHM).A(T)
     # Amplitude envelope of lorentzian impulse
     A3 = gnlse.LorentzianEnvelope(Pmax, FWHM).A(T)
+    # Amplitude envelope of continious wave
+    A4 = gnlse.CWEnvelope(Pmax).A(T)
 
     plt.figure(figsize=(12, 8))
     plt.subplot(1, 2, 1)
     plt.plot(T, A1, label='gauss')
     plt.plot(T, A2, label='sech')
     plt.plot(T, A3, label='lorentz')
+    plt.plot(T, A4, label='cw')
     plt.xlabel("Time [ps]")
     plt.ylabel("Amplitude [sqrt(W)]")
     plt.legend()
@@ -38,6 +41,7 @@ if __name__ == '__main__':
     plt.plot(T, A1**2, label='gauss')
     plt.plot(T, A2**2, label='sech')
     plt.plot(T, A3**2, label='lorentz')
+    plt.plot(T, A4**2, label='cw')
     plt.xlabel("Time [ps]")
     plt.ylabel("Power [W]")
     plt.legend()
