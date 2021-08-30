@@ -92,6 +92,9 @@ Major features
        and temporal characteristics of a third-order soliton,
      * ``test_dispersion.py``, an example of supercontinuum generation using
        different dispersion operators,
+     * ``test_nonlinearity.py``, an example of supercontinuum generation using
+       different GNLSE and M-GNLSE
+       (take into account mode profile dispersion),  
      * ``test_Dudley``, an example of supercontinuum generation using
        different input impulse envelopes,
      * ``test_gvd``, showing impulse broadening due to group velocity
@@ -107,12 +110,14 @@ Major features
 Release information
 -------------------
 
-v1.1.1 was released on August 28, 2021. The master branch works with
+v1.1.2 was released on August 30, 2021. The master branch works with
 **Python 3.7.**
 
 =======  ===============  ====================================================
 Version  Date             Notes
 =======  ===============  ====================================================
+1.1.2    August 30, 2021  * ADD: Continious wave envelope
+                          * FIX: Shift scalling data for nonlinear coefficient
 1.1.1    August 28, 2021  * CHANGE: Minor bug fix with scaling
                           * CHANGE: Few minor changes in the documentation
 1.1.0    August 21, 2021  * Modified-GNLSE extension
