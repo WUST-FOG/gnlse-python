@@ -111,3 +111,42 @@ class LorentzianEnvelope(Envelope):
         """
         m = 2 * np.sqrt(np.sqrt(2) - 1)
         return np.sqrt(self.Pmax) / (1 + (m * T / self.FWHM)**2)
+
+
+class CWEnvelope(Envelope):
+    """Amplitude envelope of continious wave
+    with or without some temporal noise.
+
+    Attributes
+    ----------
+    Pmax : float
+        Peak power [W].
+    Pn : float, optional
+        Peak power for noise [W].
+    """
+
+    def __init__(self, Pmax, Pn=0):
+        self.name = 'Continious Wave'
+        self.Pmax = Pmax
+        self.Pn = Pn
+
+    def A(self, T):
+        """
+
+        Parameters
+        ----------
+        T : ndarray, (n, )
+            Time vector.
+
+        Returns
+        -------
+        ndarray, (n, )
+            Amplitude envelope of continious wave in time.
+        """
+        cw = np.fft.ifft(np.sqrt(self.Pmax) * np.ones(np.size(T)))
+        noise = 0
+        if self.Pn:
+            noise = np.sqrt(self.Pn
+                            ) * np.exp(
+                1j * 2 * np.pi * np.random.rand(np.size(T)))
+        return np.fft.fft(cw + noise)
