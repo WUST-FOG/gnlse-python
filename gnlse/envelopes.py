@@ -6,6 +6,7 @@ hyperbolic secant, gaussian and lorentzian.
 """
 
 import numpy as np
+from scipy import interpolate
 
 
 class Envelope(object):
@@ -150,3 +151,57 @@ class CWEnvelope(Envelope):
                             ) * np.exp(
                 1j * 2 * np.pi * np.random.rand(np.size(T)))
         return np.fft.fft(cw + noise)
+
+
+class RawDataEnvelope(Envelope):
+    """Amplitude envelope of impulse
+    reconstructed from experimantal data.
+
+    Attributes
+    ----------
+    time : ndarray, (n, )
+        Time vector.
+    intensity : ndarray, (n, )
+        Time vector.
+    phase : ndarray, (n, )
+        Peak power [W].
+    energy : float
+        Enery of impulse [J].
+    """
+
+    def __init__(self, time, intensity, phase, energy):
+        self.name = 'Raw Data Envelope'
+        self.time = time
+        self.intensity = intensity
+        self.phase = phase
+        self.energy = energy
+
+    def A(self, T):
+        """
+
+        Parameters
+        ----------
+        T : ndarray, (n, )
+            Time vector.
+
+        Returns
+        -------
+        ndarray, (n, )
+            Amplitude envelope of continious wave in time.
+        """
+        # interpolation of real data
+        intensity = interpolate.interp1d(self.time,
+                                         self.intensity,
+                                         kind='cubic',
+                                         fill_value="extrapolate")
+        fi = interpolate.interp1d(self.time,
+                                  self.phase,
+                                  kind='cubic',
+                                  fill_value="extrapolate")
+
+        A = np.sqrt(intensity(T)) * np.exp(1j * fi(T))
+
+        # normalization of power
+        E = np.trapz(T, np.abs(A)**2)
+
+        return A * np.sqrt(self.energy / E)
