@@ -132,15 +132,13 @@ by J. M. Dudley and J. R. Taylor, available at
 ## Citation
 
 ```
-@misc{WUST-FOG2020,
-  author = {Paw\lowski, A., Redman, P., Szulc, D., Zatorska, M., 
-            Majchrowska, S., Tarnowski, K.
-           },
-  title = {gnlse-python},
-  year = {2020},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/WUST-FOG/gnlse-python}},
+@misc{redman2021gnlsepython,
+      title={gnlse-python: Open Source Software to Simulate Nonlinear Light Propagation In Optical Fibers}, 
+      author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
+      year={2021},
+      eprint={2110.00298},
+      archivePrefix={arXiv},
+      primaryClass={physics.optics}
 }
 ```
 

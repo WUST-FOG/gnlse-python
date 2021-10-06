@@ -136,6 +136,21 @@ Authors
   * `Sylwia Majchrowska <https://majsylw.netlify.app/>`_
   * `Karol Tarnowski <http://www.if.pwr.wroc.pl/~tarnowski/>`_
 
+Citation
+********
+If you use a code please cite us:
+
+Paragraph ... ::
+
+    @misc{redman2021gnlsepython,
+          title={gnlse-python: Open Source Software to Simulate Nonlinear Light Propagation In Optical Fibers}, 
+          author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
+          year={2021},
+          eprint={2110.00298},
+          archivePrefix={arXiv},
+          primaryClass={physics.optics}
+    }
+
 Contributing
 ************
 

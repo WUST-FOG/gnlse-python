@@ -1,12 +1,11 @@
-"""Amplitude envelopes of different impulses
+"""Amplitude envelopes of different pulses
 
-This module contains functions drawing envelopes of various impulses:
+This module contains functions drawing envelopes of various pulses:
 hyperbolic secant, gaussian and lorentzian.
 
 """
 
 import numpy as np
-from scipy import interpolate
 
 
 class Envelope(object):
@@ -15,7 +14,7 @@ class Envelope(object):
 
 
 class SechEnvelope(Envelope):
-    """Amplitude envelope of hyperbolic secant impulse.
+    """Amplitude envelope of hyperbolic secant pulse.
 
     Attributes
     ----------
@@ -41,7 +40,7 @@ class SechEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of hyperbolic secant impulse in time.
+            Amplitude envelope of hyperbolic secant pulse in time.
         """
         m = 2 * np.log(1 + np.sqrt(2))
         return np.sqrt(self.Pmax) * 2 / (np.exp(m * T / self.FWHM) +
@@ -49,7 +48,7 @@ class SechEnvelope(Envelope):
 
 
 class GaussianEnvelope(Envelope):
-    """Amplitude envelope of gaussian impulse.
+    """Amplitude envelope of gaussian pulse.
 
     Attributes
     ----------
@@ -75,14 +74,14 @@ class GaussianEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of gaussian impulse in time.
+            Amplitude envelope of gaussian pulse in time.
         """
         m = 4 * np.log(2)
         return np.sqrt(self.Pmax) * np.exp(-m * .5 * T**2 / self.FWHM**2)
 
 
 class LorentzianEnvelope(Envelope):
-    """Amplitude envelope of lorentzian impulse.
+    """Amplitude envelope of lorentzian pulse.
 
     Attributes
     ----------
@@ -108,7 +107,7 @@ class LorentzianEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of lorentzian impulse in time.
+            Amplitude envelope of lorentzian pulse in time.
         """
         m = 2 * np.sqrt(np.sqrt(2) - 1)
         return np.sqrt(self.Pmax) / (1 + (m * T / self.FWHM)**2)
@@ -151,57 +150,3 @@ class CWEnvelope(Envelope):
                             ) * np.exp(
                 1j * 2 * np.pi * np.random.rand(np.size(T)))
         return np.fft.fft(cw + noise)
-
-
-class RawDataEnvelope(Envelope):
-    """Amplitude envelope of impulse
-    reconstructed from experimantal data.
-
-    Attributes
-    ----------
-    time : ndarray, (n, )
-        Time vector.
-    intensity : ndarray, (n, )
-        Time vector.
-    phase : ndarray, (n, )
-        Peak power [W].
-    energy : float
-        Enery of impulse [J].
-    """
-
-    def __init__(self, time, intensity, phase, energy):
-        self.name = 'Raw Data Envelope'
-        self.time = time
-        self.intensity = intensity
-        self.phase = phase
-        self.energy = energy
-
-    def A(self, T):
-        """
-
-        Parameters
-        ----------
-        T : ndarray, (n, )
-            Time vector.
-
-        Returns
-        -------
-        ndarray, (n, )
-            Amplitude envelope of continious wave in time.
-        """
-        # interpolation of real data
-        intensity = interpolate.interp1d(self.time,
-                                         self.intensity,
-                                         kind='cubic',
-                                         fill_value="extrapolate")
-        fi = interpolate.interp1d(self.time,
-                                  self.phase,
-                                  kind='cubic',
-                                  fill_value="extrapolate")
-
-        A = np.sqrt(intensity(T)) * np.exp(1j * fi(T))
-
-        # normalization of power
-        E = np.trapz(T, np.abs(A)**2)
-
-        return A * np.sqrt(self.energy / E)

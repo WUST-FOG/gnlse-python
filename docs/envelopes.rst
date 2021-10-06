@@ -1,11 +1,11 @@
 :orphan:
 
-Impulse envelopes
+Pulse envelopes
 =================
 
 In physics, the envelope of an oscillating signal is a smooth curve
 outlining its extremes. The given envelope function is a function of time of
-input impulse. The below figure illustrates a modulated waves varying between
+input pulse. The below figure illustrates a modulated waves varying between
 an upper and a lower envelope of four types of optical signal.
 
 .. image:: _static/input_pulse.png
