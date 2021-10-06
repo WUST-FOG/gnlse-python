@@ -1,12 +1,12 @@
 """
-Example:  Example of supercontinuum generation in anomalous dispersion regime
-at a central wavelength of 835 nm in a 15 centimeter long fiber.
+Example:  Example of soliton fission for a
+central wavelength of 835 nm in a 15 centimeter long fiber.
 Comparision of results obtained with two simulation input:
 1. dispersion calculated from Taylor expansion,
    and gamma value procided only for pump wavelength
-2. dispersion calculated from effective refractive indicies,
+2. dispersion calculated from Taylor expansion,
    and gamma calculated from effective mode areas
-   with modification proposed by J. Lægsgaard [2]
+   with modification proposed by J. Lægsgaard [2].
 
 
 [1] "Supercontinuum Generation in Optical Fibers,"
@@ -21,7 +21,6 @@ import numpy as np
 import os
 
 import gnlse
-
 
 if __name__ == '__main__':
     setup = gnlse.GNLSESetup()
@@ -38,8 +37,8 @@ if __name__ == '__main__':
     setup.raman_model = gnlse.raman_blowwood
     setup.self_steepening = True
 
-    # Input impulse parameters
-    power = 10000
+    # Input pulse parameters
+    power = 1000
     # pulse duration [ps]
     tfwhm = 0.05
     # hyperbolic secant
@@ -70,12 +69,11 @@ if __name__ == '__main__':
 
     # This example extends the original code with additional simulations for
     nonlinearity_setups = [
-        ["Results without taking into account dispersion",
+        ["Scalar $\\gamma$",
          gnlse.DispersionFiberFromTaylor(loss, betas),
          gamma],
-        ["Results for interpolation",
-         gnlse.DispersionFiberFromInterpolation(
-             loss, neff, lambdas, setup.wavelength),
+        ["Frequency dependent $\\gamma$",
+         gnlse.DispersionFiberFromTaylor(loss, betas),
          gnlse.NonlinearityFromEffectiveArea(
              neff, Aeff, lambdas, setup.wavelength, n2=n2)]
     ]
@@ -90,9 +88,9 @@ if __name__ == '__main__':
 
         plt.subplot(2, count, i + 1)
         plt.title(model[0])
-        gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1500])
+        gnlse.plot_wavelength_vs_distance(solution, WL_range=[700, 1000])
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
+        gnlse.plot_delay_vs_distance(solution, time_range=[-.5, .5])
 
     plt.tight_layout()
     plt.show()

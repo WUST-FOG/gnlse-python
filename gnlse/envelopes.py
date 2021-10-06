@@ -1,6 +1,6 @@
-"""Amplitude envelopes of different impulses
+"""Amplitude envelopes of different pulses
 
-This module contains functions drawing envelopes of various impulses:
+This module contains functions drawing envelopes of various pulses:
 hyperbolic secant, gaussian and lorentzian.
 
 """
@@ -14,7 +14,7 @@ class Envelope(object):
 
 
 class SechEnvelope(Envelope):
-    """Amplitude envelope of hyperbolic secant impulse.
+    """Amplitude envelope of hyperbolic secant pulse.
 
     Attributes
     ----------
@@ -40,7 +40,7 @@ class SechEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of hyperbolic secant impulse in time.
+            Amplitude envelope of hyperbolic secant pulse in time.
         """
         m = 2 * np.log(1 + np.sqrt(2))
         return np.sqrt(self.Pmax) * 2 / (np.exp(m * T / self.FWHM) +
@@ -48,7 +48,7 @@ class SechEnvelope(Envelope):
 
 
 class GaussianEnvelope(Envelope):
-    """Amplitude envelope of gaussian impulse.
+    """Amplitude envelope of gaussian pulse.
 
     Attributes
     ----------
@@ -74,14 +74,14 @@ class GaussianEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of gaussian impulse in time.
+            Amplitude envelope of gaussian pulse in time.
         """
         m = 4 * np.log(2)
         return np.sqrt(self.Pmax) * np.exp(-m * .5 * T**2 / self.FWHM**2)
 
 
 class LorentzianEnvelope(Envelope):
-    """Amplitude envelope of lorentzian impulse.
+    """Amplitude envelope of lorentzian pulse.
 
     Attributes
     ----------
@@ -107,7 +107,7 @@ class LorentzianEnvelope(Envelope):
         Returns
         -------
         ndarray, (n, )
-            Amplitude envelope of lorentzian impulse in time.
+            Amplitude envelope of lorentzian pulse in time.
         """
         m = 2 * np.sqrt(np.sqrt(2) - 1)
         return np.sqrt(self.Pmax) / (1 + (m * T / self.FWHM)**2)
