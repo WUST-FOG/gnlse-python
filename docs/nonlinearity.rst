@@ -4,6 +4,7 @@ Nonlinear coefficient
 =====================
 
 The time derivative term inside GNLSE models the dispersion of
+
 the nonlinearity. This is usually associated with effects such
 as self-steepening and optical shock formation, characterized by
 a timescale :math:`\tau_0 = 1/\omega_0`. In the context of fibre
@@ -29,9 +30,9 @@ This approach is more rigorous than the approximation
 of (:math:`\gamma = \gamma(\omega_0)`)
 and requires the definition of a pseudo-envelope :math:`C(z, \omega)` as
 
+
 .. math::
 
    C(z, \omega) = \frac{A_{eff}^{1/4}(\omega_0 )}{A_{eff}^{1/4}(\omega )} A(z, \omega).
-
 
 .. autoclass:: gnlse.NonlinearityFromEffectiveArea

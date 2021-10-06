@@ -1,0 +1,48 @@
+{
+    "description": "<p>The propagation of pulses in optical fibers is described by the generalized nonlinear Schrodinger equation (GNLSE), which takes into account the fiber losses, nonlinear effects, and higher-order chromatic dispersion. The GNLSE is a partial differential equation, whose order depends on the accounted nonlinear and dispersion effects. We present gnlse-python, an nonlinear optics modeling toolbox that contains a rich set of components and modules to solve GNLSE using the split-step Fourier transform method (SSFM). The numerical solver is freely available, implemented in Python language and includes a number of optical fiber analysis tools.</p>", 
+    "license": "other-open", 
+    "title": "WUST-FOG/gnlse-python: v1.1.2 bulit on 30 August 2021", 
+    "version": "1.1.2", 
+    "upload_type": "software", 
+    "publication_date": "2021-09-02", 
+    "creators": [
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Sylwia Majchrowska"
+        }, 
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Pawe\u0142 Redman"
+        },
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Magdalena Zatorska"
+        },
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Daniel Szulc"
+        },
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Adam Paw\u0142owski"
+        },
+        {
+            "affiliation": "Wroc\u0142aw University of Science and Technology", 
+            "name": "Karol Tarnowski"
+        }
+      
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/WUST-FOG/gnlse-python/tree/1.1.2", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.5377288", 
+            "relation": "isVersionOf"
+        }
+    ]
+}

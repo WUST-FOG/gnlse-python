@@ -1,4 +1,5 @@
 ![](https://github.com/WUST-FOG/gnlse-python/workflows/CI/badge.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5377289.svg)](https://doi.org/10.5281/zenodo.5377289)
 
 # gnlse-python
 
