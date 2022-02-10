@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # Physical parameters
     setup.wavelength = 835  # nm
     setup.fiber_length = 0.15  # m
-    setup.nonlinearity = 0.11  # 1/W/m
+    setup.nonlinearity = 0.0  # 1/W/m
     setup.raman_model = gnlse.raman_blowwood
     setup.self_steepening = True
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     loss = 0
     betas = np.array([-0.024948815481502, 8.875391917212998e-05,
                       -9.247462376518329e-08, 1.508210856829677e-10])
-    setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
+    #setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
 
     # Input impulse parameters
     power = 10000
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # Simulation
     ###########################################################################
     # Type of dyspersion operator: build from Taylor expansion
-    setup.dispersion = gnlse.DispersionFiberFromTaylor(loss, betas)
+    setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
     solver = gnlse.GNLSE(setup)
     solution = solver.run()
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     lambdas = mat['neff'][:, 0] * 1e9
 
     # Type of dyspersion operator: build from interpolation of given neffs
-    setup.dispersion = gnlse.DispersionFiberFromInterpolation(
+    setup.dispersion_model = gnlse.DispersionFiberFromInterpolation(
         loss, neff, lambdas, setup.wavelength)
     solver = gnlse.GNLSE(setup)
     solution = solver.run()

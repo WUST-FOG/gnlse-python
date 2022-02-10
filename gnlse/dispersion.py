@@ -55,7 +55,7 @@ class DispersionFiberFromTaylor(Dispersion):
         Loss factor [dB/m]
     betas : ndarray (N)
         Derivatives of constant propagations at pump wavelength
-        [ps^2/km]
+        [ps^2/km, ...]
     """
 
     def __init__(self, loss, betas):
@@ -105,7 +105,7 @@ class DispersionFiberFromInterpolation(Dispersion):
         # Central frequency [1/ps = THz]
         omega = 2 * np.pi * c / self.lambdas
         dOmega = V[1] - V[0]
-        Bet = self.neff * omega / c
+        Bet = self.neff * omega / c * 1e9
 
         # Extrapolate betas for a frequency vector
         fun_interpolation = interpolate.interp1d(omega,
