@@ -83,6 +83,5 @@ if __name__ == '__main__':
         plt.subplot(2, count, i + 1 + count)
         gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
 
-    plt.xlim(-1, 2)
     plt.tight_layout()
     plt.show()
