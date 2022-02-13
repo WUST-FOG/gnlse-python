@@ -94,9 +94,11 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 
 ## Release History
 
-v1.1.2 was released in 30/8/2021.
+v1.1.3 was released in 13/2/2022.
 The master branch works with **python 3.7**.
 
+* **1.1.3 -> Feb 13th, 2022**
+    * FIX: Shift scalling data for interpolated dispersion
 * **1.1.2 -> Aug 30th, 2021**
     * ADD: Continious wave envelope
     * FIX: Shift scalling data for nonlinear coefficient
