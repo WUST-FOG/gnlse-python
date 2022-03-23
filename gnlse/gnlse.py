@@ -86,9 +86,7 @@ class Solution:
         self.Z = Z
         self.At = At
         self.AW = AW
-        # aditional solutions in case of two-mode example
-        self.Aty = Aty
-        self.AWy = AWy
+
 
     def to_file(self, path):
         """
