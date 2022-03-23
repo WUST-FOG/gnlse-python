@@ -87,7 +87,6 @@ class Solution:
         self.At = At
         self.AW = AW
 
-
     def to_file(self, path):
         """
         Saves a solution to a file.
