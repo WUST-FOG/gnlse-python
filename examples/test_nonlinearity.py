@@ -75,7 +75,8 @@ if __name__ == '__main__':
         ["Frequency dependent $\\gamma$",
          gnlse.DispersionFiberFromTaylor(loss, betas),
          gnlse.NonlinearityFromEffectiveArea(
-             neff, Aeff, lambdas, setup.wavelength, n2=n2)]
+             neff, Aeff, lambdas, setup.wavelength,
+             n2=n2, neff_max=10)]
     ]
 
     count = len(nonlinearity_setups)
