@@ -176,7 +176,7 @@ class GNLSE:
         # Nonlinearity
         if hasattr(setup.nonlinearity, 'gamma'):
             # in case in of frequency dependent nonlinearity
-            gamma, self.scale = setup.nonlinearity.gamma(self.V + w_0)
+            gamma, self.scale = setup.nonlinearity.gamma(self.V)
             self.gamma = gamma / w_0
             self.gamma = np.fft.fftshift(self.gamma)
             self.scale = np.fft.fftshift(self.scale)

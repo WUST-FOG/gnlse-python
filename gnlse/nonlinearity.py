@@ -52,7 +52,7 @@ class NonlinearityFromEffectiveArea(Nonlinearity):
     """
 
     def __init__(self, neff, Aeff, lambdas, central_wavelength,
-                 n2=2.7e-20):
+                 n2=2.7e-20, neff_max=None):
         # refractive indices
         self.neff = neff
         # efective mode area in m^-2
@@ -63,10 +63,13 @@ class NonlinearityFromEffectiveArea(Nonlinearity):
         self.w0 = (2.0 * np.pi * c) / central_wavelength
         # nonlinear index of refraction in m^2/W
         self.n2 = n2
+        # maximum (artificial) value of neff
+        self.neff_max = neff_max
 
     def gamma(self, V):
         # Central frequency [1/ps = THz]
         omega = 2 * np.pi * c / self.lambdas
+        Omega = V + self.w0
 
         # Extrapolate effective mode area for a frequency vector
         Aeff_interp = interpolate.interp1d(omega,
@@ -80,11 +83,15 @@ class NonlinearityFromEffectiveArea(Nonlinearity):
                                            fill_value="extrapolate")
 
         # Refractive index
-        neff = neff_interp(V + self.w0)
+        neff = neff_interp(Omega)
+        if self.neff_max is not None:
+            neff[Omega < omega[-1]] = self.neff_max
         # and at central frequency
         n0 = neff_interp(self.w0)
         # Efective mode area
-        Aeff = Aeff_interp(V + self.w0)
+        Aeff = Aeff_interp(Omega)
+        if self.neff_max is not None:
+            Aeff[Omega < omega[-1]] = max(self.Aeff)
         # and at central frequency [1/m^2]
         Aeff0 = Aeff_interp(self.w0)
 
