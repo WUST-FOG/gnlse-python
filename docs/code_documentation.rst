@@ -1,7 +1,7 @@
 GNLSE package documentation
 ===========================
 
-Impulse envelopes
+Pulse envelopes
 -----------------
 
 This module allows one to model proper input envelope as the given initial

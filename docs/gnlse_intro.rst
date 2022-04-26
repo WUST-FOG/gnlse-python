@@ -17,11 +17,7 @@ Installation
 
     ``git clone https://github.com/WUST-FOG/gnlse-python.git``
 
- 4. Install the requirements:
-
-    ``pip install -r requirements.txt``
-
- 5. Install the package:
+ 4. Install the package with all requirements:
 
     ``pip install .``
 
@@ -85,7 +81,7 @@ Major features
     and calculated from effective refractive indices.
   * A number of example scripts in the ``examples`` subdirectory:
 
-     * ``plot_input_pulse.py``, plotting various input impulse envelopes,
+     * ``plot_input_pulse.py``, plotting various input pulse envelopes,
      * ``plot_Raman_response.py``, plotting supported Raman response functions
        in the time domain,
      * ``test_3rd_order_soliton.py``, demonstrating the evolution of spectral
@@ -96,8 +92,8 @@ Major features
        different GNLSE and M-GNLSE
        (take into account mode profile dispersion),  
      * ``test_Dudley``, an example of supercontinuum generation using
-       different input impulse envelopes,
-     * ``test_gvd``, showing impulse broadening due to group velocity
+       different input pulse envelopes,
+     * ``test_gvd``, showing pulse broadening due to group velocity
        dispersion,
      * ``test_import_export.py``, an example of saving and loading simulation
        results to and from a \*.mat file.
@@ -110,21 +106,24 @@ Major features
 Release information
 -------------------
 
-v1.1.2 was released on August 30, 2021. The master branch works with
+v2.0.0 was released on April 26, 2022. The master branch works with
 **Python 3.7.**
 
-=======  ===============  ====================================================
-Version  Date             Notes
-=======  ===============  ====================================================
-1.1.2    August 30, 2021  * ADD: Continious wave envelope
-                          * FIX: Shift scalling data for nonlinear coefficient
-1.1.1    August 28, 2021  * CHANGE: Minor bug fix with scaling
-                          * CHANGE: Few minor changes in the documentation
-1.1.0    August 21, 2021  * Modified-GNLSE extension
-                          * CHANGE: Code refactor - relocate attribiutes
-1.0.0    August 13, 2020  * The first proper release
-                          * CHANGE: Complete documentation and code.
-=======  ===============  ====================================================
+=======  ================= ====================================================
+Version  Date              Notes
+=======  ================= ====================================================
+2.0.0    April 26, 2022    * CHANGE: Code refactor - rename modules
+                           * FIX: Fixed extrapolation for nonlinear coefficient
+1.1.3    February 13, 2022 * FIX: Fix scaling for interpolated dispersion
+1.1.2    August 30, 2021   * ADD: Continious wave envelope
+                           * FIX: Shift scalling data for nonlinear coefficient
+1.1.1    August 28, 2021   * CHANGE: Minor bug fix with scaling
+                           * CHANGE: Few minor changes in the documentation
+1.1.0    August 21, 2021   * Modified-GNLSE extension
+                           * CHANGE: Code refactor - relocate attribiutes
+1.0.0    August 13, 2020   * The first proper release
+                           * CHANGE: Complete documentation and code.
+=======  ================= ====================================================
 
 Authors
 *******
