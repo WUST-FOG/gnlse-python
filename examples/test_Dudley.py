@@ -39,28 +39,28 @@ if __name__ == '__main__':
     ])
     setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
 
-    # Input impulse parameters
+    # Input pulse parameters
     peak_power = 10000  # W
     duration = 0.050  # ps
 
     # This example extends the original code with additional simulations for
-    impulse_models = [
+    pulse_models = [
         gnlse.SechEnvelope(peak_power, duration),
         gnlse.GaussianEnvelope(peak_power, duration),
         gnlse.LorentzianEnvelope(peak_power, duration)
     ]
 
-    count = len(impulse_models)
+    count = len(pulse_models)
     plt.figure(figsize=(14, 8), facecolor='w', edgecolor='k')
-    for i, impulse_model in enumerate(impulse_models):
-        print('%s...' % impulse_model.name)
+    for i, pulse_model in enumerate(pulse_models):
+        print('%s...' % pulse_model.name)
 
-        setup.impulse_model = impulse_model
+        setup.pulse_model = pulse_model
         solver = gnlse.GNLSE(setup)
         solution = solver.run()
 
         plt.subplot(2, count, i + 1)
-        plt.title(impulse_model.name)
+        plt.title(pulse_model.name)
         gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
 
         plt.subplot(2, count, i + 1 + count)

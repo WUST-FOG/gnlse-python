@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # pulse duration [ps]
     tfwhm = 0.05
     # hyperbolic secant
-    setup.impulse_model = gnlse.SechEnvelope(power, tfwhm)
+    setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
 
     # The dispersion model is built from a Taylor expansion with coefficients
     # given below.

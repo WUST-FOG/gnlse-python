@@ -51,8 +51,8 @@ if __name__ == '__main__':
     power = 1 / (LNL * setup.nonlinearity)
     # Fiber length [m]
     setup.fiber_length = 10 * LD
-    # Type of impulse:  gaussian
-    setup.impulse_model = gnlse.GaussianEnvelope(power, tFWHM)
+    # Type of pulse:  gaussian
+    setup.pulse_model = gnlse.GaussianEnvelope(power, tFWHM)
     # Loss coefficient [dB/m]
     loss = 0
     # Type of dyspersion operator: build from Taylor expansion

@@ -38,12 +38,12 @@ if __name__ == '__main__':
     betas = np.array([-0.024948815481502, 8.875391917212998e-05,
                       -9.247462376518329e-08, 1.508210856829677e-10])
 
-    # Input impulse parameters
+    # Input pulse parameters
     power = 10000
     # pulse duration [ps]
     tfwhm = 0.05
     # hyperbolic secant
-    setup.impulse_model = gnlse.SechEnvelope(power, tfwhm)
+    setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
 
     # Type of dyspersion operator: build from interpolation of given neffs
     # read mat file for neffs
