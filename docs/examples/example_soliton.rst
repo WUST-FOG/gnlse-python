@@ -51,8 +51,8 @@ higher-order N = 3 soliton in three cases:
         Z0 = np.pi * LD / 2
         # Fiber length [m]
         setup.fiber_length = .5
-        # Type of impulse:  hyperbolic secant
-        setup.impulse_model = gnlse.SechEnvelope(power, 0.050)
+        # Type of pulse:  hyperbolic secant
+        setup.pulse_model = gnlse.SechEnvelope(power, 0.050)
         # Loss coefficient [dB/m]
         loss = 0
         # Type of dyspersion operator: build from Taylor expansion

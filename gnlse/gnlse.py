@@ -19,7 +19,7 @@ class GNLSESetup:
     time_window : float [ps]
         Width of the time window.
     wavelength : float [nm]
-        Central wavelength of the input impulse.
+        Central wavelength of the input pulse.
     fiber_length : float [m]
         Length of the simulated optical fiber.
     z_saves : int
@@ -27,8 +27,8 @@ class GNLSESetup:
         more memory to store the result.
     nonlinearity : float [1/W/m]
         Effective nonlinearity.
-    impulse_model : Envelope
-        Input impulse envelope model.
+    pulse_model : Envelope
+        Input pulse envelope model.
     dispersion_model : Dispersion, optional
         Fiber dispersion model or ``None`` to model a dispersionless fiber.
     raman_model : function, optional
@@ -51,7 +51,7 @@ class GNLSESetup:
 
         self.z_saves = 200
         self.nonlinearity = 0
-        self.impulse_model = None
+        self.pulse_model = None
         self.dispersion_model = None
         self.raman_model = None
         self.self_steepening = False
@@ -121,7 +121,7 @@ class Solution:
 
 class GNLSE:
     """
-    Models propagation of an optical impulse in a fiber by integrating
+    Models propagation of an optical pulse in a fiber by integrating
     the generalized non-linear Schrödinger equation.
 
     Attributes
@@ -142,8 +142,8 @@ class GNLSE:
             raise ValueError("'wavelength' not set")
         if setup.fiber_length is None:
             raise ValueError("'fiber_length' not set")
-        if setup.impulse_model is None:
-            raise ValueError("'impulse_model' not set")
+        if setup.pulse_model is None:
+            raise ValueError("'pulse_model' not set")
 
         # simulation parameters
         self.fiber_length = setup.fiber_length
@@ -201,11 +201,11 @@ class GNLSE:
         else:
             self.D = np.zeros(self.V.shape)
 
-        # Input impulse
-        if hasattr(setup.impulse_model, 'A'):
-            self.A = setup.impulse_model.A(self.t)
+        # Input pulse
+        if hasattr(setup.pulse_model, 'A'):
+            self.A = setup.pulse_model.A(self.t)
         else:
-            self.A = setup.impulse_model
+            self.A = setup.pulse_model
 
     def run(self):
         """

@@ -12,7 +12,7 @@ if __name__ == '__main__':
     setup.z_saves = 200
     setup.fiber_length = 0.15  # m
     setup.wavelength = 835  # nm
-    setup.impulse_model = gnlse.GaussianEnvelope(1, 0.1)
+    setup.pulse_model = gnlse.GaussianEnvelope(1, 0.1)
 
     solver = gnlse.GNLSE(setup)
     solution = solver.run()

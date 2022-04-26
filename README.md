@@ -43,7 +43,7 @@ python test_Dudley.py
 And you expect to visualise supercontinuum generation process in use of 3 types
  of pulses (simulation similar to Fig.3 of Dudley et. al, RMP 78 1135 (2006)):
 
-![supercontinuum_generation](https://github.com/WUST-FOG/gnlse-python/raw/master/data/supercontinuum_3pulses.png)
+![supercontinuum](https://github.com/WUST-FOG/gnlse-python/blob/main/data/supercontinuum_3pulses.png)
 
 ### Major features
 
@@ -80,13 +80,13 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 - **Available demos**
 
   We prepare few examples in `examples` subdirectory:
-    - plot_input_pulse.py: plots envelope of different impulse shapes,
+    - plot_input_pulse.py: plots envelope of different pulse shapes,
     - plot_Raman_response.py: plots different Raman in temporal domain,
     - test_3rd_order_soliton.py: evolution of the spectral and temporal characteristics of the 3rd order soliton,
     - test_dispersion.py: example of supercontinuum generation using different dispersion operators,
     - test_nonlinearity.py: example of supercontinuum generation using different GNLSE and M-GNLSE (take into account mode profile dispersion),
     - test_Dudley.py: example of supercontinuum generation with three types of input pulse,
-    - test_gvd.py: example of impuls broadening due to group velocity dispersion,
+    - test_gvd.py: example of pulse broadening due to group velocity dispersion,
     - test_import_export.py: example of saving file with `.mat` extension,
     - test_raman.py: example of soliton fision for diffrent raman response functions,
     - test_spm.py: example of self phase modulation,
@@ -94,9 +94,12 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 
 ## Release History
 
-v1.1.3 was released in 13/2/2022.
-The master branch works with **python 3.7**.
+v2.0.0 was released in 26/4/2022.
+The main branch works with **python 3.7**.
 
+* **2.0.0 -> Apr 26th, 2022**
+    * CHANGE: Code refactor - rename envelopes module
+    * FIX: Fixed extrapolation for nonlinear coefficient
 * **1.1.3 -> Feb 13th, 2022**
     * FIX: Shift scalling data for interpolated dispersion
 * **1.1.2 -> Aug 30th, 2021**
@@ -115,10 +118,10 @@ The master branch works with **python 3.7**.
 
 ## Authors
 
-- [Adam Pawłowski](https://github.com/adampawl)
 - [Paweł Redman](https://redman.xyz/)
-- [Daniel Szulc](http://szulc.xyz/)
 - [Magda Zatorska](https://github.com/magdazatorska)
+- [Adam Pawłowski](https://github.com/adampawl)
+- [Daniel Szulc](http://szulc.xyz/)
 - [Sylwia Majchrowska](https://majsylw.netlify.app/)
 - [Karol Tarnowski](http://www.if.pwr.wroc.pl/~tarnowski/)
 
@@ -136,8 +139,10 @@ by J. M. Dudley and J. R. Taylor, available at
 
 ```
 @misc{redman2021gnlsepython,
-      title={gnlse-python: Open Source Software to Simulate Nonlinear Light Propagation In Optical Fibers}, 
-      author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
+      title={gnlse-python: Open Source Software to Simulate
+             Nonlinear Light Propagation In Optical Fibers}, 
+      author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski
+              and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
       year={2021},
       eprint={2110.00298},
       archivePrefix={arXiv},

@@ -28,12 +28,12 @@ a 15 centimeter long photonic crystal fiber. ::
         setup.raman_model = gnlse.raman_blowwood
         setup.self_steepening = True
 
-        # Input impulse parameters
+        # Input pulse parameters
         power = 10000
         # pulse duration [ps]
         tfwhm = 0.05
         # hyperbolic secant
-        setup.impulse_model = gnlse.SechEnvelope(power, tfwhm)
+        setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
 
         # The dispersion model is built from a Taylor expansion with coefficients
         # given below.

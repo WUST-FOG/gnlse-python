@@ -9,7 +9,7 @@ input pulse. The below figure illustrates a modulated waves varying between
 an upper and a lower envelope of four types of optical signal.
 
 .. image:: _static/input_pulse.png
-   :alt: example_input_impulse 
+   :alt: example_input_pulse 
 
 .. autoclass:: gnlse.SechEnvelope
 .. autoclass:: gnlse.GaussianEnvelope

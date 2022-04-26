@@ -18,7 +18,7 @@ crystal fiber using three different models to model Raman response. ::
         setup.time_window = 12.5  # ps
         setup.z_saves = 400
     
-        # Input impulse parameters
+        # Input pulse parameters
         peak_power = 10000  # W
         duration = 0.050284  # ps
     
@@ -26,7 +26,7 @@ crystal fiber using three different models to model Raman response. ::
         setup.wavelength = 835  # nm
         setup.fiber_length = 0.15  # m
         setup.nonlinearity = 0.11  # 1/W/m
-        setup.impulse_model = gnlse.SechEnvelope(peak_power, duration)
+        setup.pulse_model = gnlse.SechEnvelope(peak_power, duration)
         setup.self_steepening = True
     
         # The dispersion model is built from a Taylor expansion with coefficients

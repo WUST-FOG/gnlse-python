@@ -12,13 +12,14 @@ with open("README.md", "r") as fh:
 
 setup(
     name='gnlse',
-    version='1.1.3',
+    version='2.0.0',
     url='https://github.com/WUST-FOG/gnlse-python',
     author='Pawłowski, A., Redman, P., Szulc, D., Zatorska, M., '
            'Majchrowska, S., Tarnowski, K.',
     description='gnlse-python is a Python set of scripts for solving '
                 'Generalized Nonlinear Schrodringer Equation',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     packages=find_packages(),
     classifiers=[
         'Programming Language :: Python :: 3',
