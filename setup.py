@@ -14,7 +14,7 @@ setup(
     name='gnlse',
     version='2.0.0',
     url='https://github.com/WUST-FOG/gnlse-python',
-    author='Pawłowski, A., Redman, P., Szulc, D., Zatorska, M., '
+    author='Redman, P., Zatorska, M., Pawlowski, A., Szulc, D., '
            'Majchrowska, S., Tarnowski, K.',
     description='gnlse-python is a Python set of scripts for solving '
                 'Generalized Nonlinear Schrodringer Equation',
@@ -26,6 +26,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.7',
     install_requires=reqs,
 )

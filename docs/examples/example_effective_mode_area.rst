@@ -12,7 +12,6 @@ a 15 centimeter long photonic crystal fiber. ::
 
     import gnlse
 
-
     if __name__ == '__main__':
         setup = gnlse.GNLSESetup()
 
@@ -29,7 +28,7 @@ a 15 centimeter long photonic crystal fiber. ::
         setup.self_steepening = True
 
         # Input pulse parameters
-        power = 10000
+        power = 1000
         # pulse duration [ps]
         tfwhm = 0.05
         # hyperbolic secant
@@ -60,14 +59,14 @@ a 15 centimeter long photonic crystal fiber. ::
 
         # This example extends the original code with additional simulations for
         nonlinearity_setups = [
-            ["Results without taking into account dispersion",
+            ["Scalar $\\gamma$",
             gnlse.DispersionFiberFromTaylor(loss, betas),
             gamma],
-            ["Results for interpolation",
-            gnlse.DispersionFiberFromInterpolation(
-                loss, neff, lambdas, setup.wavelength),
+            ["Frequency dependent $\\gamma$",
+            gnlse.DispersionFiberFromTaylor(loss, betas),
             gnlse.NonlinearityFromEffectiveArea(
-                neff, Aeff, lambdas, setup.wavelength, n2=n2)]
+                neff, Aeff, lambdas, setup.wavelength,
+                n2=n2, neff_max=10)]
         ]
 
         count = len(nonlinearity_setups)
@@ -80,9 +79,9 @@ a 15 centimeter long photonic crystal fiber. ::
 
             plt.subplot(2, count, i + 1)
             plt.title(model[0])
-            gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1500])
+            gnlse.plot_wavelength_vs_distance(solution, WL_range=[700, 1000])
             plt.subplot(2, count, i + 1 + count)
-            gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
+            gnlse.plot_delay_vs_distance(solution, time_range=[-.5, .5])
 
         plt.tight_layout()
         plt.show()

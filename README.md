@@ -1,14 +1,14 @@
 ![](https://github.com/WUST-FOG/gnlse-python/workflows/CI/badge.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5377289.svg)](https://doi.org/10.5281/zenodo.5377289)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6495720.svg)](https://doi.org/10.5281/zenodo.6495720)
 
-# gnlse-python
+# GNLSE: Nonlinear optics modeling tool for optical fibers
 
-gnlse-python is a Python set of scripts for solving
+`gnlse` is a Python set of scripts for solving
 Generalized Nonlinear Schrodringer Equation. It is one of the WUST-FOG students
 projects developed by [Fiber Optics Group, WUST](http://www.fog.pwr.edu.pl/).
 
 Complete documentation is available at
-[https://gnlse.readthedocs.io](https://gnlse.readthedocs.io)
+[https://gnlse.readthedocs.io](https://gnlse.readthedocs.io).
 
 ## Installation
 
@@ -49,7 +49,7 @@ python test_Dudley.py
 And you expect to visualise supercontinuum generation process in use of 3 types
  of pulses (simulation similar to Fig.3 of Dudley et. al, RMP 78 1135 (2006)):
 
-![supercontinuum](https://github.com/WUST-FOG/gnlse-python/blob/main/data/supercontinuum_3pulses.png)
+![supercontinuum](https://raw.githubusercontent.com/WUST-FOG/gnlse-python/main/data/supercontinuum_3pulses.png)
 
 ### Major features
 
@@ -101,7 +101,7 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 ## Release History
 
 v2.0.0 was released in 26/4/2022.
-The main branch works with **python 3.8**.
+The main branch works with **python 3.7**.
 
 * **2.0.0 -> Apr 26th, 2022**
     * CHANGE: Code refactor - rename envelopes module
@@ -124,9 +124,9 @@ The main branch works with **python 3.8**.
 
 ## Authors
 
-- [Paweł Redman](https://redman.xyz/)
+- [Pawel Redman](https://redman.xyz/)
 - [Magda Zatorska](https://github.com/magdazatorska)
-- [Adam Pawłowski](https://github.com/adampawl)
+- [Adam Pawlowski](https://github.com/adampawl)
 - [Daniel Szulc](http://szulc.xyz/)
 - [Sylwia Majchrowska](https://majsylw.netlify.app/)
 - [Karol Tarnowski](http://www.if.pwr.wroc.pl/~tarnowski/)
@@ -143,11 +143,13 @@ by J. M. Dudley and J. R. Taylor, available at
 
 ## Citation
 
+If you find this code useful in your research, please consider [citing](https://arxiv.org/abs/2110.00298):
+
 ```
 @misc{redman2021gnlsepython,
       title={gnlse-python: Open Source Software to Simulate
              Nonlinear Light Propagation In Optical Fibers}, 
-      author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski
+      author={Pawel Redman and Magdalena Zatorska and Adam Pawlowski
               and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
       year={2021},
       eprint={2110.00298},
