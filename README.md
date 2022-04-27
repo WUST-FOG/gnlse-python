@@ -12,18 +12,24 @@ Complete documentation is available at
 
 ## Installation
 
+### Using pip
+
+```
+pip install gnlse
+```
+
+### From scratch
+
 1. Create a virtual environment with `python -m venv gnlse` or using `conda`.
 2. Activate it with `. gnlse/bin/activate`.
 3. Clone this repository `git clone https://github.com/WUST-FOG/gnlse-python.git`
-4. Install the requirements in this directory `pip install -r requirements.txt`.
-5. Install gnlse package `pip install .` (or `pip install -v -e .` for develop mode) or set `PYTHONPATH` enviroment variable
+4. Install gnlse package `pip install .` (or `pip install -v -e .` for develop mode) or set `PYTHONPATH` enviroment variable
 
 ```bash
 python -m venv gnlse
 . gnlse/bin/activate
 git clone https://github.com/WUST-FOG/gnlse-python.git
 cd gnlse-python
-pip install -r requirements
 pip install .
 ```
 
@@ -95,7 +101,7 @@ And you expect to visualise supercontinuum generation process in use of 3 types
 ## Release History
 
 v2.0.0 was released in 26/4/2022.
-The main branch works with **python 3.7**.
+The main branch works with **python 3.8**.
 
 * **2.0.0 -> Apr 26th, 2022**
     * CHANGE: Code refactor - rename envelopes module

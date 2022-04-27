@@ -1,0 +1,4 @@
+recursive-include gnlse *.py
+include README
+include LICENSE
+include requirements.txt
