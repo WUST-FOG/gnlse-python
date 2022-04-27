@@ -1,29 +1,36 @@
-![](https://github.com/WUST-FOG/gnlse-python/workflows/CI/badge.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5377289.svg)](https://doi.org/10.5281/zenodo.5377289)
+![CI workflow badge](https://github.com/WUST-FOG/gnlse-python/workflows/CI/badge.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6495720.svg)](https://doi.org/10.5281/zenodo.6495720)
+![Visits Badge](https://badges.pufler.dev/visits/WUST-FOG/gnlse-python)
 
-# gnlse-python
+# GNLSE: Nonlinear optics modeling tool for optical fibers
 
-gnlse-python is a Python set of scripts for solving
+`gnlse` is a Python set of scripts for solving
 Generalized Nonlinear Schrodringer Equation. It is one of the WUST-FOG students
 projects developed by [Fiber Optics Group, WUST](http://www.fog.pwr.edu.pl/).
 
 Complete documentation is available at
-[https://gnlse.readthedocs.io](https://gnlse.readthedocs.io)
+[https://gnlse.readthedocs.io](https://gnlse.readthedocs.io).
 
 ## Installation
+
+### Using pip
+
+```
+pip install gnlse
+```
+
+### From scratch
 
 1. Create a virtual environment with `python -m venv gnlse` or using `conda`.
 2. Activate it with `. gnlse/bin/activate`.
 3. Clone this repository `git clone https://github.com/WUST-FOG/gnlse-python.git`
-4. Install the requirements in this directory `pip install -r requirements.txt`.
-5. Install gnlse package `pip install .` (or `pip install -v -e .` for develop mode) or set `PYTHONPATH` enviroment variable
+4. Install gnlse package `pip install .` (or `pip install -v -e .` for develop mode) or set `PYTHONPATH` enviroment variable
 
 ```bash
 python -m venv gnlse
 . gnlse/bin/activate
 git clone https://github.com/WUST-FOG/gnlse-python.git
 cd gnlse-python
-pip install -r requirements
 pip install .
 ```
 
@@ -43,7 +50,7 @@ python test_Dudley.py
 And you expect to visualise supercontinuum generation process in use of 3 types
  of pulses (simulation similar to Fig.3 of Dudley et. al, RMP 78 1135 (2006)):
 
-![supercontinuum](https://github.com/WUST-FOG/gnlse-python/blob/main/data/supercontinuum_3pulses.png)
+![supercontinuum](https://raw.githubusercontent.com/WUST-FOG/gnlse-python/main/data/supercontinuum_3pulses.png)
 
 ### Major features
 
@@ -118,9 +125,9 @@ The main branch works with **python 3.7**.
 
 ## Authors
 
-- [Paweł Redman](https://redman.xyz/)
+- [Pawel Redman](https://redman.xyz/)
 - [Magda Zatorska](https://github.com/magdazatorska)
-- [Adam Pawłowski](https://github.com/adampawl)
+- [Adam Pawlowski](https://github.com/adampawl)
 - [Daniel Szulc](http://szulc.xyz/)
 - [Sylwia Majchrowska](https://majsylw.netlify.app/)
 - [Karol Tarnowski](http://www.if.pwr.wroc.pl/~tarnowski/)
@@ -137,11 +144,13 @@ by J. M. Dudley and J. R. Taylor, available at
 
 ## Citation
 
+If you find this code useful in your research, please consider [citing](https://arxiv.org/abs/2110.00298):
+
 ```
 @misc{redman2021gnlsepython,
       title={gnlse-python: Open Source Software to Simulate
              Nonlinear Light Propagation In Optical Fibers}, 
-      author={Paweł Redman and Magdalena Zatorska and Adam Pawłowski
+      author={Pawel Redman and Magdalena Zatorska and Adam Pawlowski
               and Daniel Szulc and Sylwia Majchrowska and Karol Tarnowski},
       year={2021},
       eprint={2110.00298},

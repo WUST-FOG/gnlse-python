@@ -1,10 +1,10 @@
 {
     "description": "<p>The propagation of pulses in optical fibers is described by the generalized nonlinear Schrodinger equation (GNLSE), which takes into account the fiber losses, nonlinear effects, and higher-order chromatic dispersion. The GNLSE is a partial differential equation, whose order depends on the accounted nonlinear and dispersion effects. We present gnlse-python, an nonlinear optics modeling toolbox that contains a rich set of components and modules to solve GNLSE using the split-step Fourier transform method (SSFM). The numerical solver is freely available, implemented in Python language and includes a number of optical fiber analysis tools.</p>", 
-    "license": "other-open", 
-    "title": "WUST-FOG/gnlse-python: v1.1.2 bulit on 30 August 2021", 
-    "version": "1.1.2", 
+    "license": "MIT", 
+    "title": "WUST-FOG/gnlse-python: v2.0.0 bulit on 26 April 2021", 
+    "version": "2.0.0", 
     "upload_type": "software", 
-    "publication_date": "2021-09-02", 
+    "publication_date": "2022-04-26", 
     "creators": [
         {
             "affiliation": "Wroc\u0142aw University of Science and Technology", 
@@ -36,12 +36,12 @@
     "related_identifiers": [
         {
             "scheme": "url", 
-            "identifier": "https://github.com/WUST-FOG/gnlse-python/tree/1.1.2", 
+            "identifier": "https://github.com/WUST-FOG/gnlse-python/tree/2.0.0", 
             "relation": "isSupplementTo"
         }, 
         {
             "scheme": "doi", 
-            "identifier": "10.5281/zenodo.5377288", 
+            "identifier": "10.5281/zenodo.6495720", 
             "relation": "isVersionOf"
         }
     ]

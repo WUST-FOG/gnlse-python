@@ -7,59 +7,74 @@ crystal fiber using three different models to model Raman response. ::
 
     import numpy as np
     import matplotlib.pyplot as plt
-    
+
     import gnlse
-    
+
+    import os
+
     if __name__ == '__main__':
         setup = gnlse.GNLSESetup()
-    
+
         # Numerical parameters
         setup.resolution = 2**14
         setup.time_window = 12.5  # ps
-        setup.z_saves = 400
-    
-        # Input pulse parameters
-        peak_power = 10000  # W
-        duration = 0.050284  # ps
-    
+        setup.z_saves = 200
+
         # Physical parameters
         setup.wavelength = 835  # nm
         setup.fiber_length = 0.15  # m
-        setup.nonlinearity = 0.11  # 1/W/m
-        setup.pulse_model = gnlse.SechEnvelope(peak_power, duration)
+        setup.nonlinearity = 0.0  # 1/W/m
+        setup.raman_model = gnlse.raman_blowwood
         setup.self_steepening = True
-    
+
         # The dispersion model is built from a Taylor expansion with coefficients
         # given below.
         loss = 0
-        betas = np.array([
-            -11.830e-3, 8.1038e-5, -9.5205e-8, 2.0737e-10, -5.3943e-13, 1.3486e-15,
-            -2.5495e-18, 3.0524e-21, -1.7140e-24
-        ])
-        setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
-    
-        # This example extends the original code with additional simulations for
-        # three types of models of Raman response and no raman scattering case
-        raman_models = {
-            'Blow-Wood': gnlse.raman_blowwood,
-            'Hollenbeck-Cantrell': gnlse.raman_holltrell,
-            'Lin-Agrawal': gnlse.raman_linagrawal,
-            'No scattering': None
+        betas = np.array([-0.024948815481502, 8.875391917212998e-05,
+                        -9.247462376518329e-08, 1.508210856829677e-10])
+
+        # Input pulse parameters
+        power = 10000
+        # pulse duration [ps]
+        tfwhm = 0.05
+        # hyperbolic secant
+        setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
+
+        # Type of dyspersion operator: build from interpolation of given neffs
+        # read mat file for neffs
+        mat_path = os.path.join(os.path.dirname(__file__), '..',
+                                'data', 'neff_pcf.mat')
+        mat = gnlse.read_mat(mat_path)
+        # neffs
+        neff = mat['neff'][:, 1]
+        # wavelengths in nm
+        lambdas = mat['neff'][:, 0] * 1e9
+
+        # Visualization
+        ###########################################################################
+
+        # Set type of dispersion function
+        simulation_type = {
+            'Results for Taylor expansion': gnlse.DispersionFiberFromTaylor(
+                loss, betas),
+            'Results for interpolation': gnlse.DispersionFiberFromInterpolation(
+                loss, neff, lambdas, setup.wavelength)
         }
-    
-        count = len(raman_models)
-        plt.figure(figsize=(20, 10), facecolor='w', edgecolor='k')
-        for (i, (name, raman_model)) in enumerate(raman_models.items()):
-            setup.raman_model = raman_model
+
+        count = len(simulation_type)
+        plt.figure(figsize=(15, 7), facecolor='w', edgecolor='k')
+        for (i, (name, dispersion_model)) in enumerate(simulation_type.items()):
+            setup.dispersion_model = dispersion_model
             solver = gnlse.GNLSE(setup)
             solution = solver.run()
-    
+
             plt.subplot(2, count, i + 1)
             plt.title(name)
-            gnlse.plot_wavelength_vs_distance(solution, WL_range=[500, 1250])
-    
+            gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
+
             plt.subplot(2, count, i + 1 + count)
             gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
+
         plt.tight_layout()
         plt.show()
 

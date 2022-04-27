@@ -5,8 +5,24 @@ gnlse-python is a Python set of scripts for solving Generalized Nonlinear
 Schrodinger Equation. It is one of the WUST-FOG students projects developed by
 `Fiber Optics Group, WUST <http://www.fog.pwr.edu.pl/>`_.
 
+Complete documentation is available at `https://gnlse.readthedocs.io <https://gnlse.readthedocs.io>`_.
+
 Installation
 ------------
+
+Using pip
+*********
+
+Instal the latest version
+
+``pip install gnlse``
+
+or pick appropriate version as v2.0.0
+
+``pip install gnlse==2.0.0``
+
+From scratch
+************
 
  1. Create a virtual environment using ``python -m venv gnlse`` or ``conda``.
  2. Activate it:
@@ -62,7 +78,7 @@ A visualisation, pictured in the screenshot below, is then displayed.
    examples/index
 
 More examples can be found in the `examples subdirectory 
-<https://github.com/WUST-FOG/gnlse-python/tree/master/examples>`_.
+<https://github.com/WUST-FOG/gnlse-python/tree/main/examples>`_.
 
 Major features
 --------------
@@ -88,25 +104,25 @@ Major features
        and temporal characteristics of a third-order soliton,
      * ``test_dispersion.py``, an example of supercontinuum generation using
        different dispersion operators,
-     * ``test_nonlinearity.py``, an example of supercontinuum generation using
-       different GNLSE and M-GNLSE
+     * ``test_nonlinearity.py``, an example of soliton fission using
+       different GNLSE and Modified GNLSE accounting mode profile dispersion,
        (take into account mode profile dispersion),  
-     * ``test_Dudley``, an example of supercontinuum generation using
+     * ``test_Dudley.py``, an example of supercontinuum generation using
        different input pulse envelopes,
-     * ``test_gvd``, showing pulse broadening due to group velocity
+     * ``test_gvd.py``, showing pulse broadening due to group velocity
        dispersion,
      * ``test_import_export.py``, an example of saving and loading simulation
-       results to and from a \*.mat file.
+       results to and from a \*.mat file,
      * ``test_raman.py``, showing solition fission in case for different Raman
        responses,
-     * ``test_spm``, an example of self-phase modulation,
-     * ``test_spm+gvd``, demonstrating generation of a first-order soliton.
+     * ``test_spm.py``, an example of self-phase modulation,
+     * ``test_spm+gvd.py``, demonstrating generation of a first-order soliton.
        
 
 Release information
 -------------------
 
-v2.0.0 was released on April 26, 2022. The master branch works with
+v2.0.0 was released on April 26, 2022. The main branch works with
 **Python 3.7.**
 
 =======  ================= ====================================================
@@ -137,7 +153,8 @@ Authors
 
 Citation
 ********
-If you use a code please cite us:
+
+If you use a code please `cite <https://arxiv.org/pdf/2110.00298.pdf>`_ us:
 
 Paragraph ... ::
 
