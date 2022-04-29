@@ -99,6 +99,8 @@ And you expect to visualise supercontinuum generation process in use of 3 types
     - test_spm.py: example of self phase modulation,
     - test_spm+gvd.py: example of generation of 1st order soliton.
 
+For more advanced examples with Coupled Generalized Nonlinear Schrodringer Equation with two modes please refer to [cgnlse-python](https://github.com/WUST-FOG/cgnlse-python).
+
 ## Release History
 
 v2.0.0 was released in 26/4/2022.
