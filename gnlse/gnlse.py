@@ -79,10 +79,11 @@ class Solution:
         Intermediate steps in the frequency domain.
     """
 
-    def __init__(self, t=None, W=None, Z=None, At=None, AW=None,
+    def __init__(self, t=None, W=None, w_0=None, Z=None, At=None, AW=None,
                  Aty=None, AWy=None):
         self.t = t
         self.W = W
+        self.w_0 = w_0
         self.Z = Z
         self.At = At
         self.AW = AW
@@ -163,26 +164,26 @@ class GNLSE:
                                        self.N / 2
                                        ) / (self.N * (self.t[1] - self.t[0]))
         # Central angular frequency [10^12 rad]
-        w_0 = (2.0 * np.pi * c) / setup.wavelength
-        self.Omega = self.V + w_0
+        self.w_0 = (2.0 * np.pi * c) / setup.wavelength
+        self.Omega = self.V + self.w_0
 
         # Absolute angular frequency grid
-        if setup.self_steepening and np.abs(w_0) > np.finfo(float).eps:
-            W = self.V + w_0
+        if setup.self_steepening and np.abs(self.w_0) > np.finfo(float).eps:
+            W = self.V + self.w_0
         else:
-            W = np.full(self.V.shape, w_0)
+            W = np.full(self.V.shape, self.w_0)
         self.W = np.fft.fftshift(W)
 
         # Nonlinearity
         if hasattr(setup.nonlinearity, 'gamma'):
             # in case in of frequency dependent nonlinearity
             gamma, self.scale = setup.nonlinearity.gamma(self.V)
-            self.gamma = gamma / w_0
+            self.gamma = gamma / self.w_0
             self.gamma = np.fft.fftshift(self.gamma)
             self.scale = np.fft.fftshift(self.scale)
         else:
             # in case in of direct introduced value
-            self.gamma = setup.nonlinearity / w_0
+            self.gamma = setup.nonlinearity / self.w_0
             self.scale = 1
 
         # Raman scattering
@@ -276,4 +277,4 @@ class GNLSE:
             At[i, :] = np.fft.fft(AW[i, :])
             AW[i, :] = np.fft.fftshift(AW[i, :]) * self.N * dt
 
-        return Solution(self.t, self.Omega, Z, At, AW)
+        return Solution(self.t, self.Omega, self.w_0, Z, At, AW)
