@@ -132,7 +132,7 @@ The main branch works with **python 3.7**.
 - [Adam Pawlowski](https://github.com/adampawl)
 - [Daniel Szulc](http://szulc.xyz/)
 - [Sylwia Majchrowska](https://majsylw.netlify.app/)
-- [Karol Tarnowski](http://www.tarnowski.wppr.pwr.edu.pl/)
+- [Karol Tarnowski](http://www.tarnowski.wppt.pwr.edu.pl/)
 
 ## Acknowledgement
 
