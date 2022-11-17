@@ -43,11 +43,12 @@ def plot_frequency_vs_distance_logarithmic(solver, ax=None, norm=None):
     frequency = (solver.W - solver.w_0) / 2 / np.pi  # frequency grid
 
     ax.imshow(lIW, origin='lower', aspect='auto', cmap="magma",
-              extent=[np.min(frequency), np.max(frequency), 0, np.max(solver.Z)],
-              vmin=-40)
+              extent=[np.min(frequency), np.max(frequency),
+                      0, np.max(solver.Z)], vmin=-40)
     ax.set_xlabel("Frequency [THz]")
     ax.set_ylabel("Distance [m]")
     return ax
+
 
 def plot_frequency_vs_distance(solver, ax=None, norm=None):
     """Plotting results in frequency domain. Linear scale.
@@ -75,22 +76,23 @@ def plot_frequency_vs_distance(solver, ax=None, norm=None):
 
     if norm is None:
         norm = np.max(np.abs(solver.AW)**2)
- 
+
     IW = np.fliplr(
         np.abs(solver.AW)**2 / norm)
     frequency = (solver.W - solver.w_0) / 2 / np.pi  # frequency grid
-    
+
     ax.imshow(IW, origin='lower', aspect='auto', cmap="magma",
-              extent=[np.min(frequency), np.max(frequency), 0, np.max(solver.Z)],
-              vmin=0)
+              extent=[np.min(frequency), np.max(frequency),
+                      0, np.max(solver.Z)], vmin=0)
     ax.set_xlabel("Frequency [THz]")
     ax.set_ylabel("Distance [m]")
     return ax
 
+
 def plot_delay_for_distance_slice(solver, time_range=None, ax=None,
-                                z_slice = None, norm=None):
+                                  z_slice=None, norm=None):
     """Plotting intensity in linear scale in time domain.
-    
+
     Parameters
     ----------
     solver : Solution
@@ -102,7 +104,7 @@ def plot_delay_for_distance_slice(solver, time_range=None, ax=None,
     norm : float
         Normalization factor for output spectrum. As default maximum of
         square absolute of ``solver.At`` variable is taken.
-    
+
     Returns
     -------
     ax : :class:`~matplotlib.axes.Axes`
@@ -114,25 +116,25 @@ def plot_delay_for_distance_slice(solver, time_range=None, ax=None,
 
     if time_range is None:
         time_range = [np.min(solver.t), np.max(solver.t)]
-    
+
     if norm is None:
         norm = np.max(np.abs(solver.At)**2)
- 
+
     It = np.fliplr(
-        np.abs(solver.At)**2 / norm) 
-    
+        np.abs(solver.At)**2 / norm)
 
-    #indices of interest if no z_slice positions were given      
-    if z_slice is None: 
-        iis = [0,-1] 
-    #indices of interest nearest to given z_slice positions    
-    else:    
-        iis = [ np.nonzero(np.min(np.abs(solver.Z-z)) == np.abs(solver.Z-z))[0][0] for z in z_slice ] 
+    # indices of interest if no z_slice positions were given
+    if z_slice is None:
+        iis = [0, -1]
+    # indices of interest nearest to given z_slice positions
+    else:
+        iis = [np.nonzero(
+            np.min(np.abs(solver.Z - z)) == np.abs(solver.Z - z)
+        )[0][0] for z in z_slice]
 
-    for i in iis: 
-        label_i = "z = " + str(solver.Z[i]) +"m"
-        ax.plot(solver.t, It[i][:], label = label_i)  
-
+    for i in iis:
+        label_i = "z = " + str(solver.Z[i]) + "m"
+        ax.plot(solver.t, It[i][:], label=label_i)
 
     ax.set_xlim(time_range)
     ax.set_xlabel("Delay [ps]")
@@ -140,10 +142,11 @@ def plot_delay_for_distance_slice(solver, time_range=None, ax=None,
     ax.legend()
     return ax
 
+
 def plot_delay_for_distance_slice_logarithmic(solver, time_range=None, ax=None,
-                                z_slice = None, norm=None):
+                                              z_slice=None, norm=None):
     """Plotting intensity in logarithmic scale in time domain.
-    
+
     Parameters
     ----------
     solver : Solution
@@ -155,7 +158,7 @@ def plot_delay_for_distance_slice_logarithmic(solver, time_range=None, ax=None,
     norm : float
         Normalization factor for output spectrum. As default maximum of
         square absolute of ``solver.At`` variable is taken.
-    
+
     Returns
     -------
     ax : :class:`~matplotlib.axes.Axes`
@@ -167,24 +170,25 @@ def plot_delay_for_distance_slice_logarithmic(solver, time_range=None, ax=None,
 
     if time_range is None:
         time_range = [np.min(solver.t), np.max(solver.t)]
-    
+
     if norm is None:
         norm = np.max(np.abs(solver.At)**2)
-  
+
     lIt = 10 * np.log10(np.abs(solver.At)**2 / norm,
                         where=(np.abs(solver.At)**2 > 0))
 
-    #indices of interest if no z_slice positions were given      
-    if z_slice is None: 
-        iis = [0,-1] 
-    #indices of interest nearest to given z_slice positions    
-    else:    
-        iis = [ np.nonzero(np.min(np.abs(solver.Z-z)) == np.abs(solver.Z-z))[0][0] for z in z_slice ] 
+    # indices of interest if no z_slice positions were given
+    if z_slice is None:
+        iis = [0, -1]
+    # indices of interest nearest to given z_slice positions
+    else:
+        iis = [np.nonzero(
+            np.min(np.abs(solver.Z - z)) == np.abs(solver.Z - z)
+        )[0][0] for z in z_slice]
 
-    for i in iis: 
-        label_i = "z = " + str(solver.Z[i]) +"m"
-        ax.plot(solver.t, lIt[i][:], label = label_i)  
-
+    for i in iis:
+        label_i = "z = " + str(solver.Z[i]) + "m"
+        ax.plot(solver.t, lIt[i][:], label=label_i)
 
     ax.set_xlim(time_range)
     ax.set_ylim(-40)
@@ -193,9 +197,10 @@ def plot_delay_for_distance_slice_logarithmic(solver, time_range=None, ax=None,
     ax.legend()
     return ax
 
+
 def plot_frequency_for_distance_slice(solver, frequency_range=None, ax=None,
-                                                 z_slice = None, norm=None):
-    """Plotting chosen slices of intensity in linear scale in frequency domain. 
+                                      z_slice=None, norm=None):
+    """Plotting chosen slices of intensity in linear scale in frequency domain.
 
     Parameters
     ----------
@@ -219,36 +224,40 @@ def plot_frequency_for_distance_slice(solver, frequency_range=None, ax=None,
         ax = plt.gca()
 
     if frequency_range is None:
-        frequency_range = [np.min((solver.W-solver.w_0)/2/np.pi),
-                           np.max((solver.W-solver.w_0)/2/np.pi)]
- 
+        frequency_range = [np.min((solver.W - solver.w_0) / 2 / np.pi),
+                           np.max((solver.W - solver.w_0) / 2 / np.pi)]
+
     if norm is None:
         norm = np.max(np.abs(solver.AW)**2)
- 
+
     IW = np.fliplr(
         np.abs(solver.AW)**2 / norm)
 
-    #indices of interest if no z_slice positions were given  
+    # indices of interest if no z_slice positions were given
     if z_slice is None:
-        iis = [0,-1] #beginning, end
-    #indices of interest nearest to given z_slice positions 
-    else:  
-        iis = [ np.nonzero(np.min(np.abs(solver.Z-z)) == np.abs(solver.Z-z))[0][0] for z in z_slice ] 
+        iis = [0, -1]  # beginning, end
+    # indices of interest nearest to given z_slice positions
+    else:
+        iis = [np.nonzero(
+            np.min(np.abs(solver.Z - z)) == np.abs(solver.Z - z)
+        )[0][0] for z in z_slice]
 
-    for i in iis: 
-        label_i = "z = " + str(solver.Z[i]) +"m"
-        ax.plot((solver.W-solver.w_0)/2/np.pi, IW[i][:], label = label_i)  
-
+    for i in iis:
+        label_i = "z = " + str(solver.Z[i]) + "m"
+        ax.plot((solver.W - solver.w_0) / 2 / np.pi, IW[i][:], label=label_i)
 
     ax.set_xlim(frequency_range)
     ax.set_xlabel("Frequency [Thz]")
     ax.set_ylabel("Normalized Power")
     ax.legend()
-    return ax   
+    return ax
 
-def plot_frequency_for_distance_slice_logarithmic(solver, frequency_range=None, 
-                                           ax=None, z_slice = None, norm=None):
-    """Plotting chosen slices of intensity in logarithmic scale in frequency domain. 
+
+def plot_frequency_for_distance_slice_logarithmic(solver, frequency_range=None,
+                                                  ax=None, z_slice=None,
+                                                  norm=None):
+    """Plotting chosen slices of intensity
+    in logarithmic scale in frequency domain.
 
     Parameters
     ----------
@@ -272,38 +281,39 @@ def plot_frequency_for_distance_slice_logarithmic(solver, frequency_range=None,
         ax = plt.gca()
 
     if frequency_range is None:
-        frequency_range = [np.min((solver.W-solver.w_0)/2/np.pi),
-                           np.max((solver.W-solver.w_0)/2/np.pi)]
- 
+        frequency_range = [np.min((solver.W - solver.w_0) / 2 / np.pi),
+                           np.max((solver.W - solver.w_0) / 2 / np.pi)]
+
     if norm is None:
         norm = np.max(np.abs(solver.AW)**2)
- 
+
     lIW = np.fliplr(
         10 * np.log10(np.abs(solver.AW)**2 / norm,
                       where=(np.abs(solver.AW)**2 > 0)))
-    
-    #indices of interest if no z_slice positions were given
+
+    # indices of interest if no z_slice positions were given
     if z_slice is None:
-        iis = [0,-1] #beginning, end
-    
-    #indices of interest nearest to given z_slice positions 
-    else:  
-        iis = [ np.nonzero(np.min(np.abs(solver.Z-z)) == np.abs(solver.Z-z))[0][0] for z in z_slice ] 
-  
-        
-    for i in iis: 
-        label_i = "z = " + str(solver.Z[i]) +"m"
-        ax.plot((solver.W-solver.w_0)/2/np.pi, lIW[i][:], label = label_i)  
+        iis = [0, -1]  # beginning, end
 
+    # indices of interest nearest to given z_slice positions
+    else:
+        iis = [np.nonzero(
+            np.min(np.abs(solver.Z - z)) == np.abs(solver.Z - z)
+        )[0][0] for z in z_slice]
 
-    ax.set_xlim(frequency_range) 
+    for i in iis:
+        label_i = "z = " + str(solver.Z[i]) + "m"
+        ax.plot((solver.W - solver.w_0) / 2 / np.pi, lIW[i][:], label=label_i)
+
+    ax.set_xlim(frequency_range)
     ax.set_xlabel("Frequency [Thz]")
     ax.set_ylabel("Normalized Power")
     ax.legend()
-    return ax   
-  
-def plot_delay_vs_distance_logarithmic(solver, time_range=None, ax=None, 
-                                                             norm=None):
+    return ax
+
+
+def plot_delay_vs_distance_logarithmic(solver, time_range=None, ax=None,
+                                       norm=None):
     """Plotting intensity in logarithmic scale in time domain.
 
     Parameters
@@ -342,6 +352,7 @@ def plot_delay_vs_distance_logarithmic(solver, time_range=None, ax=None,
     ax.set_ylabel("Distance [m]")
     return ax
 
+
 def plot_delay_vs_distance(solver, time_range=None, ax=None, norm=None):
     """Plotting normalized intensity in linear scale in time domain.
 
@@ -373,12 +384,13 @@ def plot_delay_vs_distance(solver, time_range=None, ax=None, norm=None):
 
     lIT = np.abs(solver.At)**2 / norm
 
-    ax.pcolormesh(solver.t, solver.Z, lIT, shading="auto", vmin=0,  
+    ax.pcolormesh(solver.t, solver.Z, lIT, shading="auto", vmin=0,
                   cmap="jet")
     ax.set_xlim(time_range)
     ax.set_xlabel("Delay [ps]")
     ax.set_ylabel("Distance [m]")
     return ax
+
 
 def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
                                 norm=None):
@@ -406,8 +418,8 @@ def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
         ax = plt.gca()
 
     if WL_range is None:
-        WL_range = [np.min(c/(solver.W/2/np.pi)), 
-                    np.max(c/(solver.W/2/np.pi))]
+        WL_range = [np.min(c / (solver.W / 2 / np.pi)),
+                    np.max(c / (solver.W / 2 / np.pi))]
 
     if norm is None:
         norm = np.max(np.abs(solver.AW)**2)
@@ -433,8 +445,9 @@ def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
     ax.set_ylabel("Distance [m]")
     return ax
 
+
 def plot_wavelength_vs_distance_logarithmic(solver, WL_range=None,
-                                              ax=None, norm=None):
+                                            ax=None, norm=None):
     """Plotting results in logarithmic scale in wavelength domain.
 
     Parameters
@@ -459,8 +472,8 @@ def plot_wavelength_vs_distance_logarithmic(solver, WL_range=None,
         ax = plt.gca()
 
     if WL_range is None:
-        WL_range = [np.min(c/(solver.W/2/np.pi)), 
-                    np.max(c/(solver.W/2/np.pi))]
+        WL_range = [np.min(c / (solver.W / 2 / np.pi)),
+                    np.max(c / (solver.W / 2 / np.pi))]
 
     if norm is None:
         norm = np.max(np.abs(solver.AW)**2)
@@ -486,6 +499,7 @@ def plot_wavelength_vs_distance_logarithmic(solver, WL_range=None,
     ax.set_xlabel("Wavelength [nm]")
     ax.set_ylabel("Distance [m]")
     return ax
+
 
 def quick_plot(solution):
     """Plotting results in time and frequency domain for default value
