@@ -48,7 +48,7 @@ def plot_frequency_vs_distance_logarithmic(solver, ax=None, norm=None,
                              frequency <= frequency_range[1])
         # indices of interest
 
-        frequency= frequency[iis]
+        frequency = frequency[iis]
         lIW = lIW[:, iis]
 
     ax.imshow(lIW, origin='lower', aspect='auto', cmap=cmap,
@@ -96,7 +96,7 @@ def plot_frequency_vs_distance(solver, frequency_range=None,
                              frequency <= frequency_range[1])
         # indices of interest
 
-        frequency= frequency[iis]
+        frequency = frequency[iis]
         IW = IW[:, iis]
 
     ax.imshow(IW, origin='lower', aspect='auto', cmap=cmap,

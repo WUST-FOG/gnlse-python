@@ -1,23 +1,18 @@
 """
-This example is here to test new plot functions. This test is based on file
-test_dispersion:
-Example:  Example of supercontinuum generation in anomalous dispersion regime
-at a central wavelength of 835 nm in a 15 centimeter long fiber.
-Comparision of results obtained with two dispersion input:
-1. dispersion calculated from Taylor expansion
-2. dispersion calculated from effective refractive indicies
-
-The python code based on MATLAB code published in
-'Supercontinuum Generation in Optical Fibers'
-by J. M. Dudley and J. R. Taylor, available at http://scgbook.info/.
+This example presents potential of new plot functions.
+Especially:
+    -different scales(linear and logarithmic)
+    -different x arguments(delay, frequency, wavelength)
+    -color map as argument of plot function
+    -slice plot for chosen z(propagation) distances
+    or z=0 and z=end if no specific z were chosen.
+Data used in this example are taken from test_Dudley.py file from examples.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 import gnlse
-
-import os
 
 if __name__ == '__main__':
     setup = gnlse.GNLSESetup()
@@ -48,7 +43,7 @@ if __name__ == '__main__':
     # pulse duration [ps]
     tfwhm = 0.05
     # hyperbolic secant
-    setup.pulse_model = gnlse.SechEnvelope(power, tfwhm) 
+    setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
     solver = gnlse.GNLSE(setup)
     solution = solver.run()
 
@@ -88,12 +83,12 @@ if __name__ == '__main__':
     gnlse.plot_wavelength_for_distance_slice(solution, WL_range=[400, 1400])
 
     plt.subplot(4, 3, 10)
-    ax = gnlse.plot_delay_for_distance_slice_logarithmic(solution,
-                                                    time_range=[-.5, 5])
+    gnlse.plot_delay_for_distance_slice_logarithmic(
+        solution, time_range=[-.5, 5])
 
     plt.subplot(4, 3, 11)
-    gnlse.plot_frequency_for_distance_slice_logarithmic(solution,
-                                                frequency_range=[-300, 200])
+    gnlse.plot_frequency_for_distance_slice_logarithmic(
+        solution, frequency_range=[-300, 200])
 
     plt.subplot(4, 3, 12)
     gnlse.plot_wavelength_for_distance_slice_logarithmic(solution,
