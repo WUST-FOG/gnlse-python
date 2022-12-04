@@ -3,7 +3,8 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  tests:
+  # Run the whole test suite on the recent Python release
+  all-tests:
     runs-on: ubuntu-latest
     container:
       image: python:3.10
@@ -16,3 +17,18 @@ jobs:
         run: |
           git config --global --add safe.directory "${GITHUB_WORKSPACE}"
           tox -v
+
+  # Ensure the project is installable and functional on older Python release
+  compatibility:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.7
+    steps:
+      - name: Packages
+        run: pip install tox
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Tox
+        run: |
+          git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+          tox -v -e examples
