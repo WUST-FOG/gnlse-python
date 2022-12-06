@@ -14,12 +14,19 @@ master_doc = 'index'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-	'numpydoc'
+    'numpydoc',
 ]
 
 autodoc_mock_imports = [
-    'numpy', 'matplotlib', 'matplotlib.pyplot', 'scipy', 'scipy.integrate',
-    'scipy.interpolate', 'pyfftw', 'hdf5storage', 'tqdm'
+    'hdf5storage',
+    'matplotlib',
+    'matplotlib.pyplot',
+    'numpy',
+    'pyfftw',
+    'scipy',
+    'scipy.integrate',
+    'scipy.interpolate',
+    'tqdm',
 ]
 
 autosummary_generate = True

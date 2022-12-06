@@ -1,4 +1,4 @@
 numpydoc
 sphinx_rtd_theme
 rinohtype
-pygments==2.5.1
+pygments>=2.5.1
