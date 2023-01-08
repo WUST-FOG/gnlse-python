@@ -103,8 +103,8 @@ For more advanced examples with Coupled Generalized Nonlinear Schrodringer Equat
 
 ## Release History
 
-v2.0.0 was released in 26/4/2022.
-The main branch works with **python 3.7**.
+v2.0.1 was released in 08/01/2023.
+The main branch works with **python 3.9**.
 
 * **2.0.0 -> Apr 26th, 2022**
     * CHANGE: Code refactor - rename envelopes module
