@@ -13,12 +13,12 @@ by J. M. Dudley and J. R. Taylor, available at http://scgbook.info/.
 import numpy as np
 import matplotlib.pyplot as plt
 
-import gnlse
+import gnlse_main
 
 import os
 
 if __name__ == '__main__':
-    setup = gnlse.GNLSESetup()
+    setup = gnlse_main.GNLSESetup()
 
     # Numerical parameters
     setup.resolution = 2**14
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     setup.wavelength = 835  # nm
     setup.fiber_length = 0.15  # m
     setup.nonlinearity = 0.0  # 1/W/m
-    setup.raman_model = gnlse.raman_blowwood
+    setup.raman_model = gnlse_main.raman_blowwood
     setup.self_steepening = True
 
     # The dispersion model is built from a Taylor expansion with coefficients
@@ -43,13 +43,13 @@ if __name__ == '__main__':
     # pulse duration [ps]
     tfwhm = 0.05
     # hyperbolic secant
-    setup.pulse_model = gnlse.SechEnvelope(power, tfwhm)
+    setup.pulse_model = gnlse_main.SechEnvelope(power, tfwhm)
 
     # Type of dyspersion operator: build from interpolation of given neffs
     # read mat file for neffs
     mat_path = os.path.join(os.path.dirname(__file__), '..',
                             'data', 'neff_pcf.mat')
-    mat = gnlse.read_mat(mat_path)
+    mat = gnlse_main.read_mat(mat_path)
     # neffs
     neff = mat['neff'][:, 1]
     # wavelengths in nm
@@ -60,9 +60,9 @@ if __name__ == '__main__':
 
     # Set type of dispersion function
     simulation_type = {
-        'Results for Taylor expansion': gnlse.DispersionFiberFromTaylor(
+        'Results for Taylor expansion': gnlse_main.DispersionFiberFromTaylor(
             loss, betas),
-        'Results for interpolation': gnlse.DispersionFiberFromInterpolation(
+        'Results for interpolation': gnlse_main.DispersionFiberFromInterpolation(
             loss, neff, lambdas, setup.wavelength)
     }
 
@@ -70,15 +70,15 @@ if __name__ == '__main__':
     plt.figure(figsize=(15, 7), facecolor='w', edgecolor='k')
     for (i, (name, dispersion_model)) in enumerate(simulation_type.items()):
         setup.dispersion_model = dispersion_model
-        solver = gnlse.GNLSE(setup)
+        solver = gnlse_main.GNLSE(setup)
         solution = solver.run()
 
         plt.subplot(2, count, i + 1)
         plt.title(name)
-        gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
+        gnlse_main.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
 
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-.5, 5])
+        gnlse_main.plot_delay_vs_distance(solution, time_range=[-.5, 5])
 
     plt.tight_layout()
     plt.show()

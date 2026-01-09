@@ -3,8 +3,8 @@ import scipy.integrate
 import pyfftw
 import tqdm
 
-from gnlse.common import c
-from gnlse.import_export import write_mat, read_mat
+from gnlse_main.common import c
+from gnlse_main.import_export import write_mat, read_mat
 
 
 class GNLSESetup:
@@ -48,6 +48,7 @@ class GNLSESetup:
         self.time_window = None
         self.wavelength = None
         self.fiber_length = None
+        self.active_fiber = False #if fiber is active (True), will use modified gnlse equation
 
         self.z_saves = 200
         self.nonlinearity = 0
@@ -153,6 +154,8 @@ class GNLSE:
         self.atol = setup.atol
         self.method = setup.method
         self.N = setup.resolution
+        self.active = setup.active_fiber
+        self.n2log = {"z":[],"n2":[],"E":[],"rv":[]}
 
         # Time domain grid
         self.t = np.linspace(-setup.time_window / 2,
@@ -196,17 +199,26 @@ class GNLSE:
                 self.RW = self.N * np.fft.ifft(
                     np.fft.fftshift(np.transpose(RT)))
 
-        # Dispersion operator
-        if setup.dispersion_model:
-            self.D = setup.dispersion_model.D(self.V)
-        else:
-            self.D = np.zeros(self.V.shape)
-
         # Input pulse
         if hasattr(setup.pulse_model, 'A'):
             self.A = setup.pulse_model.A(self.t)
         else:
             self.A = setup.pulse_model
+        # Dispersion operator
+
+        if setup.dispersion_model:
+            #if D includes gain, it needs the frequencies
+            if self.active:
+                self.dispersion_model = setup.dispersion_model
+                #self.dispersion_model.v = ((self.Omega * 1e12)/(2*np.pi))
+                self.dispersion_model.SetFrequency(((self.Omega * 1e12)/(2*np.pi)))
+                self.dispersion_model.AW = np.fft.fft(self.A)
+                self.dispersion_model.dt = self.t[1] - self.t[0]
+            else:
+                 self.D = setup.dispersion_model.D(self.V)
+
+        else:
+            self.D = np.zeros(self.V.shape)
 
     def run(self):
         """
@@ -219,14 +231,14 @@ class GNLSE:
             Simulation results in the form of a ``Solution`` object.
         """
         dt = self.t[1] - self.t[0]
-        self.D = np.fft.fftshift(self.D)
+        if self.active == False:
+            self.D = np.fft.fftshift(self.D)
         x = pyfftw.empty_aligned(self.N, dtype="complex128")
         X = pyfftw.empty_aligned(self.N, dtype="complex128")
         plan_forward = pyfftw.FFTW(x, X)
         plan_inverse = pyfftw.FFTW(X, x, direction="FFTW_BACKWARD")
 
         progress_bar = tqdm.tqdm(total=self.fiber_length, unit='m')
-
         def rhs(z, AW):
             """
             The right hand side of the differential equation to integrate.
@@ -234,7 +246,17 @@ class GNLSE:
 
             progress_bar.n = round(z, 3)
             progress_bar.update(0)
+            #at each z, evaluate the gain function and update the D operator if the fiber is active - gain function is in the dispersion operator
+            if self.active:
+                if z != 0.0:
+                    self.dispersion_model.AW = x[:]
+                self.D = self.dispersion_model.D(self.V)
 
+                self.n2log["z"].append(z)
+                self.n2log["n2"].append(self.dispersion_model.N2Total/self.dispersion_model.dopant_concentration)
+                self.n2log["E"].append(self.dispersion_model.pulse_energy_log)
+                self.D = np.fft.fftshift(self.D) #taking same step as above
+            
             x[:] = AW * np.exp(self.D * z)
             At = plan_forward().copy()
             IT = np.abs(At)**2
@@ -253,7 +275,7 @@ class GNLSE:
 
             rv = 1j * self.gamma * self.W * M * np.exp(
                 -self.D * z)
-
+            self.n2log["rv"].append(rv)
             return rv
 
         Z = np.linspace(0, self.fiber_length, self.z_saves)
@@ -264,7 +286,8 @@ class GNLSE:
             t_eval=Z,
             rtol=self.rtol,
             atol=self.atol,
-            method=self.method)
+            method=self.method,
+            max_step = (self.fiber_length/self.z_saves))
         AW = solution.y.T
 
         progress_bar.close()
@@ -276,5 +299,5 @@ class GNLSE:
                 self.D) * Z[i]) / self.scale
             At[i, :] = np.fft.fft(AW[i, :])
             AW[i, :] = np.fft.fftshift(AW[i, :]) * self.N * dt
-
+        
         return Solution(self.t, self.Omega, self.w_0, Z, At, AW)

@@ -5,9 +5,9 @@ Various plotting functions for visualizing GNLSE simulations using Matplotlib.
 import numpy as np
 import matplotlib.pyplot as plt
 
-from scipy.interpolate import interp2d
+from scipy.interpolate import RectBivariateSpline
 
-from gnlse.common import c
+from gnlse_main.common import c
 
 
 def plot_frequency_vs_distance_logarithmic(solver, ax=None, norm=None,
@@ -582,9 +582,9 @@ def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
     WL_asc = WL_asc[iis]
     IW = IW[:, iis]
 
-    interpolator = interp2d(WL_asc, solver.Z, IW)
+    interpolator = RectBivariateSpline(WL_asc, solver.Z, IW.T)
     newWL = np.linspace(np.min(WL_asc), np.max(WL_asc), IW.shape[1])
-    toshow = interpolator(newWL, solver.Z)
+    toshow = interpolator(newWL, solver.Z).T
 
     ax.imshow(toshow, origin='lower', aspect='auto', cmap=cmap,
               extent=[np.min(WL_asc), np.max(WL_asc), 0, np.max(solver.Z)],
@@ -637,9 +637,9 @@ def plot_wavelength_vs_distance_logarithmic(solver, WL_range=None,
     WL_asc = WL_asc[iis]
     lIW = lIW[:, iis]
 
-    interpolator = interp2d(WL_asc, solver.Z, lIW)
+    interpolator = RectBivariateSpline(WL_asc, solver.Z, lIW.T)
     newWL = np.linspace(np.min(WL_asc), np.max(WL_asc), lIW.shape[1])
-    toshow = interpolator(newWL, solver.Z)
+    toshow = interpolator(newWL, solver.Z).T
 
     ax.imshow(toshow, origin='lower', aspect='auto', cmap=cmap,
               extent=[np.min(WL_asc), np.max(WL_asc), 0, np.max(solver.Z)],
@@ -648,6 +648,61 @@ def plot_wavelength_vs_distance_logarithmic(solver, WL_range=None,
     ax.set_ylabel("Distance [m]")
     return ax
 
+def plot_energy_vs_distance(solution,ax=None):
+    #a line plot showing the change in intensity over distance
+    #need to know energy of the pulse, average power, peak power
+    if ax == None:
+        ax = plt.gca()
+
+    dt = solution.t[1] - solution.t[0]
+    #at each distance slice, get the total pulse energy
+    pulse_energy = [] #empty array to hold pulse energies
+
+    for A in solution.At:
+        #iterating over each step in the time domain
+        pulse_energy.append(np.trapezoid(np.abs(np.square(A)),dx=dt*1e-12)) #integrating to find the pulse energy
+    
+    ax.plot(solution.Z,pulse_energy)
+    ax.set_ylabel("Pulse Energy(J)")
+    ax.set_xlabel("Distance(m)")
+    return ax
+
+def plot_final_spectrum(solution,WL_range,include_initial = True,ax=None):
+    if ax == None:
+        ax = plt.gca()
+    
+    finalspectrum = np.abs(np.square(solution.AW[-1]))
+    finalspectrum = np.divide(finalspectrum,max(finalspectrum))
+    WL = 2 * np.pi * c / solution.W  # wavelength grid
+    ax.plot(WL,finalspectrum,label="final spectrum")
+    if include_initial:
+        initialspectrum = np.abs(np.square(solution.AW[0]))
+        initialspectrum = np.divide(initialspectrum,max(initialspectrum))
+        ax.plot(WL,initialspectrum,label="initial spectrum")
+    ax.set_xlim(WL_range)
+    ax.set_ylabel("Intensity")
+    ax.set_xlabel("Wavelength")
+    ax.legend(loc="upper right")
+    return ax
+
+def plot_energy_vs_distance_logarithmic(solution,ax=None):
+    #a line plot showing the change in intensity over distance
+    #need to know energy of the pulse, average power, peak power
+    if ax == None:
+        ax = plt.gca()
+
+    dt = solution.t[1] - solution.t[0]
+    #at each distance slice, get the total pulse energy
+    pulse_energy = [] #empty array to hold pulse energies
+
+    for A in solution.At:
+        #iterating over each step in the time domain
+        pulse_energy.append(np.trapezoid(np.abs(np.square(A)),dx=dt*1e-12)) #integrating to find the pulse energy
+    
+    ax.loglog(solution.Z,pulse_energy)
+    ax.set_ylabel("Pulse Energy(J)")
+    ax.set_xlabel("Distance(m)")
+    return ax
 
 def quick_plot(solution):
     """Plotting results in time and frequency domain for default value

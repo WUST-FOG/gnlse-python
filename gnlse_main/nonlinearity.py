@@ -8,7 +8,7 @@ frequency domain.
 import numpy as np
 from scipy import interpolate
 
-from gnlse.common import c
+from gnlse_main.common import c
 
 
 class Nonlinearity(object):

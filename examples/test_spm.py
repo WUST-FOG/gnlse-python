@@ -8,12 +8,12 @@ by J. M. Dudley and J. R. Taylor, available at http://scgbook.info/.
 """
 
 import numpy as np
-import gnlse
+import gnlse_main
 import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
-    setup = gnlse.gnlse.GNLSESetup()
+    setup = gnlse_main.gnlse.GNLSESetup()
 
     # Numerical parameters
     ###########################################################################
@@ -48,11 +48,11 @@ if __name__ == '__main__':
     # Fiber length [m]
     setup.fiber_length = 3.5 * np.pi * LNL
     # Type of pulse:  gaussian
-    setup.pulse_model = gnlse.GaussianEnvelope(power, tFWHM)
+    setup.pulse_model = gnlse_main.GaussianEnvelope(power, tFWHM)
     # Loss coefficient [dB/m]
     loss = 0
     # Type of dyspersion operator: build from Taylor expansion
-    setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
+    setup.dispersion_model = gnlse_main.DispersionFiberFromTaylor(loss, betas)
 
     # Type of Ramman scattering function: None (default)
     # Selftepening: not accounted
@@ -60,14 +60,14 @@ if __name__ == '__main__':
 
     # Simulation
     ###########################################################################
-    solver = gnlse.gnlse.GNLSE(setup)
+    solver = gnlse_main.gnlse.GNLSE(setup)
     solution = solver.run()
 
     # Visualization
     ###########################################################################
     plt.subplot(1, 2, 1)
-    gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
+    gnlse_main.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
     plt.subplot(1, 2, 2)
-    gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
+    gnlse_main.plot_delay_vs_distance(solution, time_range=[-.25, .25])
 
     plt.show()

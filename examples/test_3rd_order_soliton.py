@@ -9,10 +9,10 @@ higher-order N = 3 soliton in three cases:
 import numpy as np
 import matplotlib.pyplot as plt
 
-import gnlse
+import gnlse_main
 
 if __name__ == '__main__':
-    setup = gnlse.gnlse.GNLSESetup()
+    setup = gnlse_main.gnlse.GNLSESetup()
 
     # Numerical parameters
     # number of grid time points
@@ -52,18 +52,18 @@ if __name__ == '__main__':
     # Fiber length [m]
     setup.fiber_length = .5
     # Type of pulse:  hyperbolic secant
-    setup.pulse_model = gnlse.SechEnvelope(power, 0.050)
+    setup.pulse_model = gnlse_main.SechEnvelope(power, 0.050)
     # Loss coefficient [dB/m]
     loss = 0
     # Type of dyspersion operator: build from Taylor expansion
-    setup.dispersion_model = gnlse.DispersionFiberFromTaylor(loss, betas)
+    setup.dispersion_model = gnlse_main.DispersionFiberFromTaylor(loss, betas)
 
     # Set type of Ramman scattering function and selftepening
     simulation_type = {
         '3rd order soliton': (False, None),
         '3rd order soliton\nwith self-steepening': (True, None),
         'Raman induced fission\nof 3rd order soliton': (True,
-                                                        gnlse.raman_blowwood)
+                                                        gnlse_main.raman_blowwood)
     }
 
     count = len(simulation_type)
@@ -73,15 +73,15 @@ if __name__ == '__main__':
               raman_model))) in enumerate(simulation_type.items()):
         setup.raman_model = raman_model
         setup.self_steepening = self_steepening
-        solver = gnlse.GNLSE(setup)
+        solver = gnlse_main.GNLSE(setup)
         solution = solver.run()
 
         plt.subplot(2, count, i + 1)
         plt.title(name)
-        gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
+        gnlse_main.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
 
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-.25, .25])
+        gnlse_main.plot_delay_vs_distance(solution, time_range=[-.25, .25])
 
     plt.tight_layout()
     plt.show()

@@ -8,7 +8,7 @@ hyperbolic secant, gaussian and lorentzian.
 import numpy as np
 import matplotlib.pyplot as plt
 
-import gnlse
+import gnlse_main
 
 if __name__ == '__main__':
     # time full with half maximum of pulse
@@ -19,13 +19,13 @@ if __name__ == '__main__':
     Pmax = 100
 
     # Amplitude envelope of gaussina pulse
-    A1 = gnlse.GaussianEnvelope(Pmax, FWHM).A(T)
+    A1 = gnlse_main.GaussianEnvelope(Pmax, FWHM).A(T)
     # Amplitude envelope of hiperbolic secans pulse
-    A2 = gnlse.SechEnvelope(Pmax, FWHM).A(T)
+    A2 = gnlse_main.SechEnvelope(Pmax, FWHM).A(T)
     # Amplitude envelope of lorentzian pulse
-    A3 = gnlse.LorentzianEnvelope(Pmax, FWHM).A(T)
+    A3 = gnlse_main.LorentzianEnvelope(Pmax, FWHM).A(T)
     # Amplitude envelope of continious wave
-    A4 = gnlse.CWEnvelope(Pmax).A(T)
+    A4 = gnlse_main.CWEnvelope(Pmax).A(T)
 
     plt.figure(figsize=(12, 8))
     plt.subplot(1, 2, 1)

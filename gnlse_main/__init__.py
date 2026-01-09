@@ -1,13 +1,13 @@
-from gnlse.dispersion import (DispersionFiberFromTaylor,
-                              DispersionFiberFromInterpolation)
-from gnlse.envelopes import (SechEnvelope, GaussianEnvelope,
+from gnlse_main.dispersion import (DispersionFiberFromTaylor,
+                              DispersionFiberFromInterpolation,DispersionFiberFromTaylorWithGain)
+from gnlse_main.envelopes import (SechEnvelope, GaussianEnvelope,
                              LorentzianEnvelope, CWEnvelope)
-from gnlse.gnlse import GNLSESetup, Solution, GNLSE
-from gnlse.import_export import read_mat, write_mat
-from gnlse.nonlinearity import NonlinearityFromEffectiveArea
-from gnlse.raman_response import (raman_blowwood, raman_holltrell,
+from gnlse_main.gnlse import GNLSESetup, Solution, GNLSE
+from gnlse_main.import_export import read_mat, write_mat
+from gnlse_main.nonlinearity import NonlinearityFromEffectiveArea
+from gnlse_main.raman_response import (raman_blowwood, raman_holltrell,
                                   raman_linagrawal)
-from gnlse.visualization import (
+from gnlse_main.visualization import (
     plot_delay_vs_distance,
     plot_delay_vs_distance_logarithmic,
     plot_delay_for_distance_slice,
@@ -23,7 +23,7 @@ from gnlse.visualization import (
     quick_plot)
 
 __all__ = [
-    'DispersionFiberFromTaylor', 'DispersionFiberFromInterpolation',
+    'DispersionFiberFromTaylor', 'DispersionFiberFromInterpolation','DispersionFiberFromTaylorWithGain'
     'SechEnvelope', 'GaussianEnvelope', 'LorentzianEnvelope', 'GNLSESetup',
     'GNLSE', 'Solution', 'read_mat', 'write_mat', 'raman_blowwood',
     'raman_holltrell', 'raman_linagrawal',
