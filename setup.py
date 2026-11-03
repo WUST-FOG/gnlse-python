@@ -1,11 +1,15 @@
-import pkg_resources
+#import pkg_resources  # old, doesn't work anymore with python 3.10.#
+#from packaging.requirements import Requirement
 
 from setuptools import find_packages
 from setuptools import setup
 
 with open('requirements.txt', 'r') as fh:
-    reqs = [str(requirement)
-            for requirement in pkg_resources.parse_requirements(fh)]
+    reqs = [
+        line.strip()
+        for line in fh
+        if line.strip() and not line.strip().startswith('#')
+    ]
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -23,9 +27,14 @@ setup(
     packages=find_packages(),
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Operating System :: OS Independent',
     ],
+    license='MIT',
     python_requires='>=3.7',
     install_requires=reqs,
 )

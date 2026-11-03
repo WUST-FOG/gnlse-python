@@ -61,10 +61,10 @@ if __name__ == '__main__':
 
         plt.subplot(2, count, i + 1)
         plt.title(pulse_model.name)
-        gnlse.plot_wavelength_vs_distance(solution, WL_range=[400, 1400])
+        gnlse.plot_wavelength_vs_distance_logarithmic(solution, WL_range=[400, 1400])
 
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-0.5, 5])
+        gnlse.plot_delay_vs_distance_logarithmic(solution, time_range=[-0.5, 5])
 
     plt.tight_layout()
     plt.show()
