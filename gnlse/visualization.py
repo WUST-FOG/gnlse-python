@@ -583,7 +583,8 @@ def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
     WL_asc = WL_asc[iis]
     IW = IW[:, iis]
 
-    interpolator = RegularGridInterpolator((WL_asc, solver.Z), IW.T, method='cubic')
+    interpolator = RegularGridInterpolator((WL_asc, solver.Z), 
+                                           IW.T, method='cubic')
     newWL = np.linspace(np.min(WL_asc), np.max(WL_asc), IW.shape[1])
     WL_new_grid, Z_new_grid = np.meshgrid(newWL, solver.Z, indexing='ij')
     toshow = interpolator((WL_new_grid, Z_new_grid)).T
@@ -670,3 +671,4 @@ def quick_plot(solution):
     plot_delay_vs_distance(solution)
 
     plt.show()
+    

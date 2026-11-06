@@ -59,9 +59,9 @@ if __name__ == '__main__':
 
         plt.subplot(2, count, i + 1)
         plt.title(name)
-        gnlse.plot_wavelength_vs_distance(solution, WL_range=[500, 1250])
+        gnlse.plot_wavelength_vs_distance_logarithmic(solution, WL_range=[500, 1250])
 
         plt.subplot(2, count, i + 1 + count)
-        gnlse.plot_delay_vs_distance(solution, time_range=[-0.5, 4])
+        gnlse.plot_delay_vs_distance_logarithmic(solution, time_range=[-0.5, 4])
     plt.tight_layout()
     plt.show()

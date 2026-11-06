@@ -1,6 +1,3 @@
-#import pkg_resources  # old, doesn't work anymore with python 3.10.#
-#from packaging.requirements import Requirement
-
 from setuptools import find_packages
 from setuptools import setup
 

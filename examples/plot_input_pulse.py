@@ -18,9 +18,9 @@ if __name__ == '__main__':
     # peak power [W]
     Pmax = 100
 
-    # Amplitude envelope of gaussina pulse
+    # Amplitude envelope of gaussian pulse
     A1 = gnlse.GaussianEnvelope(Pmax, FWHM).A(T)
-    # Amplitude envelope of hiperbolic secans pulse
+    # Amplitude envelope of hyperbolic secant pulse
     A2 = gnlse.SechEnvelope(Pmax, FWHM).A(T)
     # Amplitude envelope of lorentzian pulse
     A3 = gnlse.LorentzianEnvelope(Pmax, FWHM).A(T)
@@ -29,19 +29,19 @@ if __name__ == '__main__':
 
     plt.figure(figsize=(12, 8))
     plt.subplot(1, 2, 1)
-    plt.plot(T, A1, label='gauss')
-    plt.plot(T, A2, label='sech')
-    plt.plot(T, A3, label='lorentz')
-    plt.plot(T, A4, label='cw')
+    plt.plot(T, np.abs(A1), label='gauss')
+    plt.plot(T, np.abs(A2), label='sech')
+    plt.plot(T, np.abs(A3), label='lorentz')
+    plt.plot(T, np.abs(A4), label='cw')
     plt.xlabel("Time [ps]")
     plt.ylabel("Amplitude [sqrt(W)]")
     plt.legend()
 
     plt.subplot(1, 2, 2)
-    plt.plot(T, A1**2, label='gauss')
-    plt.plot(T, A2**2, label='sech')
-    plt.plot(T, A3**2, label='lorentz')
-    plt.plot(T, A4**2, label='cw')
+    plt.plot(T, np.abs(A1)**2, label='gauss')
+    plt.plot(T, np.abs(A2)**2, label='sech')
+    plt.plot(T, np.abs(A3)**2, label='lorentz')
+    plt.plot(T, np.abs(A4)**2, label='cw')
     plt.xlabel("Time [ps]")
     plt.ylabel("Power [W]")
     plt.legend()
