@@ -5,7 +5,7 @@ Various plotting functions for visualizing GNLSE simulations using Matplotlib.
 import numpy as np
 import matplotlib.pyplot as plt
 
-#from scipy.interpolate import interp2d - deprecated since SciPy version 1.14.0
+# scipy.interpolate.interp2d was removed in SciPy 1.14.
 from scipy.interpolate import RegularGridInterpolator
 
 from gnlse.common import c
@@ -583,7 +583,7 @@ def plot_wavelength_vs_distance(solver, WL_range=None, ax=None,
     WL_asc = WL_asc[iis]
     IW = IW[:, iis]
 
-    interpolator = RegularGridInterpolator((WL_asc, solver.Z), 
+    interpolator = RegularGridInterpolator((WL_asc, solver.Z),
                                            IW.T, method='cubic')
     newWL = np.linspace(np.min(WL_asc), np.max(WL_asc), IW.shape[1])
     WL_new_grid, Z_new_grid = np.meshgrid(newWL, solver.Z, indexing='ij')
@@ -671,4 +671,3 @@ def quick_plot(solution):
     plot_delay_vs_distance(solution)
 
     plt.show()
-    

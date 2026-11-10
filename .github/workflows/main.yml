@@ -2,17 +2,31 @@ name: CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   tests:
+    name: ${{ matrix.environment }} / Python 3.14
     runs-on: ubuntu-latest
-    container:
-      image: python:3.9
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [py314, docs, lint]
+
     steps:
-      - name: Packages
-        run: pip install 'tox<4'
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Tox
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Install tox
         run: |
-          git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-          tox -v
+          python -m pip install --upgrade pip
+          python -m pip install 'tox>=4,<5'
+
+      - name: Run tests
+        run: python -m tox -e ${{ matrix.environment }}
