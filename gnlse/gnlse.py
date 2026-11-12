@@ -225,7 +225,7 @@ class GNLSE:
         plan_forward = pyfftw.FFTW(x, X)
         plan_inverse = pyfftw.FFTW(X, x, direction="FFTW_BACKWARD")
 
-        progress_bar = tqdm.tqdm(total=self.fiber_length, unit='m')
+        progress_bar = tqdm.tqdm(total=round(self.fiber_length, 3), unit='m')
 
         def rhs(z, AW):
             """
